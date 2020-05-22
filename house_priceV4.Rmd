@@ -68,7 +68,7 @@ get_model_metrics <- function(model, df){
   
   #print(deparse(substitute(model)))
 
-  
+  print(names({{model}}))
   df %>%
     bind_cols(predict(model, df)) %>%
     select(log_sale_price, predicted_xg = .pred) %>%
@@ -103,7 +103,7 @@ get_model_metrics <- function(model, df){
 train <- read_csv("train.csv")
 test <- read_csv("test.csv")
 
-
+ 
 names(train) <- make.names(names(train))
 names(test) <- make.names(names(test))
 
@@ -316,6 +316,8 @@ house_split <- initial_split(house)
 #month <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct",  "Nov", "Dec" )
 
 train_split <- training(house_split)
+
+doParallel::registerDoParallel()
 house_recipe <- train_split %>%
   recipe(log_sale_price ~ .) %>%
   step_string2factor(all_nominal(), -all_outcomes()) %>%
@@ -323,27 +325,30 @@ house_recipe <- train_split %>%
   step_num2factor(YrSold, levels = as.character(unique(train_split$YrSold))) %>%
   step_num2factor(MSSubClass, levels = as.character(unique(train_split$MSSubClass))) %>%
   step_num2factor(OverallCond, levels = as.character(unique(train_split$OverallCond))) %>%
-  step_knnimpute(all_predictors(), -all_outcomes()) %>% 
   step_dummy(all_nominal(), -all_outcomes()) %>%
   step_center(all_predictors(), -all_outcomes()) %>%
   step_scale(all_predictors(), -all_outcomes()) %>%
   step_corr(all_predictors()) %>%
   step_nzv(all_predictors()) %>%
+  step_knnimpute(all_predictors(), -all_outcomes()) %>%
+  # step_corr(all_predictors()) %>%
+  # step_nzv(all_predictors()) %>%
   prep()
 
+doParallel::registerDoParallel()
 house_recipe_treebased <- train_split %>%
   recipe(log_sale_price ~ .) %>%
   step_string2factor(all_nominal(), -all_outcomes()) %>%
   step_num2factor(MoSold, levels = as.character(unique(train_split$MoSold))) %>%
   step_num2factor(YrSold, levels = as.character(unique(train_split$YrSold))) %>%
-  step_num2factor(MSSubClass, levels = as.character(unique(train_split$MSSubClass))) %>%
   step_num2factor(OverallCond, levels = as.character(unique(train_split$OverallCond))) %>%
-  step_knnimpute(all_predictors(), -all_outcomes()) %>%
-  #step_dummy(all_nominal(), -all_outcomes()) %>%
-  step_center(all_numeric(), -all_outcomes()) %>%
-  step_scale(all_numeric(), -all_outcomes()) %>%
+  step_num2factor(MSSubClass, levels = as.character(unique(train_split$MSSubClass))) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  # step_center(all_numeric(), -all_outcomes()) %>%
+  # step_scale(all_numeric(), -all_outcomes()) %>%
   step_corr(all_numeric()) %>%
   step_nzv(all_numeric()) %>%
+  step_knnimpute(all_predictors(), -all_outcomes()) %>%
   prep()
 
 ```
@@ -397,9 +402,12 @@ rf_grid <-
 #create samples for cross validation
 folds <- vfold_cv(house_train_treebased, v = 10)
 
+
+doParallel::registerDoParallel()
+
 #create models with grid search
 rf_res <-
-  tune_grid(rf_rec, model = rf_mod, resamples = folds ,  grid = rf_grid)
+  tune_grid(model = rf_mod, rf_rec,resamples = folds ,  grid = rf_grid)
 
 final_mtry <- select_best(rf_res, "rmse", maximize = FALSE)$mtry
 final_min_node <- select_best(rf_res, "rmse", maximize = FALSE)$min_n
@@ -419,6 +427,8 @@ ggplot(aes(x = Variable, y = abs_importance)) + geom_col() + coord_flip()
 
 #xgboost
 ```{r}
+
+doParallel::registerDoParallel()
 #xgboost
 xg_model <- boost_tree() %>%
   set_mode("regression") %>%
@@ -442,6 +452,8 @@ ridge_mod <-
 ridge_grid <- expand.grid(penalty = seq(from = 0.01, to = 0.2, by=0.001), mixture = 0)
 
 folds <- vfold_cv(house_train, v = 10)
+
+doParallel::registerDoParallel()
 
 ridge_res <-
   tune_grid(ridge_rec, model = ridge_mod, resamples = folds ,  grid = ridge_grid)
@@ -552,7 +564,7 @@ as.data.frame(as.matrix(lm_lasso_model$fit$beta)) %>%  rownames_to_column() %>% 
       get_model_metrics
     )  %>% mutate(data = "test")
   ) %>%
-  pivot_wider(names_from = data, values_from = .estimate) %>% 
+  pivot_wider(names_from = data, values_from = .estimate) %>%
   unnest  
   
 ```
