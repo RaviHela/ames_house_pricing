@@ -1,0 +1,571 @@
+---
+title: "house_price_pre_3"
+author: "Ravi Hela"
+date: "22/03/2020"
+output: html_document
+---
+
+#load libraries
+
+```{r}
+library(tidymodels)
+library(readr)
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(DataExplorer)
+library(tidyquant)
+library(corrr)
+library(caret)
+library(vip)
+library(Hmisc)
+
+
+```
+
+
+#define some useful functions
+```{r}
+#function to help filter corelated variables
+split_arrange_names <- function(x){
+  
+  return(paste0(sort(unlist(str_split(x, "_"))), collapse = ""))
+}
+
+#get simplifeid correlation dataframe
+get_corr_df_simple <- function(df, cut_off = NA) {
+  
+  simpl_df <-
+    df %>% select_if(is.numeric) %>% correlate(use = "pairwise.complete.obs") %>%
+    pivot_longer(
+      -rowname,
+      names_to = "features",
+      values_to = "corr",
+      values_drop_na = T
+    ) %>%
+    mutate(t1 = paste(rowname, features, sep = "_")) %>%
+    mutate(t2 = sapply(t1, split_arrange_names)) %>%
+    arrange(t2) %>%
+    group_by(t2) %>%
+    mutate(rank = row_number(t2)) %>%
+    ungroup %>% filter(rank == 1) %>%
+    select(rowname, features, corr) %>%
+    arrange(desc(abs(corr))) 
+  
+  if(is.na(cut_off)){
+    return(simpl_df)
+  }else{
+    
+    return(simpl_df %>% filter(abs(corr) >= cut_off))
+  }
+  
+}
+
+#get model metrics in a dataframe
+get_model_metrics <- function(model, df){
+  
+  model_type <- str_replace(class(model)[[1]] , "_", "")
+  
+  #print(deparse(substitute(model)))
+
+  
+  df %>%
+    bind_cols(predict(model, df)) %>%
+    select(log_sale_price, predicted_xg = .pred) %>%
+    
+    #add squared error
+    mutate(
+      sq_error_log = (predicted_xg - log_sale_price) ^ 2,
+      sale_price = exp(log_sale_price),
+      predicted_sp = exp(predicted_xg),
+      sq_error = predicted_sp - sale_price
+    ) %>%
+    
+    #plot erro
+    #ggplot(aes(x = sq_error, y = predicted_lm)) + geom_point() + theme_light()
+    mutate(truth = log(sale_price),
+           estimate = log(predicted_sp)) %>%
+    
+    
+    #get model metrics
+    metrics(truth, estimate) %>%
+    select(-.estimator) %>%
+    mutate(m_type  = model_type) %>%
+    filter(.metric == "rmse")
+  }
+
+```
+
+
+#read data
+```{r}
+
+train <- read_csv("train.csv")
+test <- read_csv("test.csv")
+
+
+names(train) <- make.names(names(train))
+names(test) <- make.names(names(test))
+
+```
+
+#combinie test and train for eda
+
+```{r}
+lapply(list(train = train, test = test), skim)
+test$SalePrice <- NA
+test$set <- "test"
+train$set <- "train"
+house_comb <- bind_rows(train, test)
+skim(house_comb)
+
+```
+
+#eda
+
+#data quality
+#missing values
+```{r}
+profile_missing(house_comb) %>%
+  arrange(desc(pct_missing))
+
+plot_missing(house_comb)
+
+
+## these are factor variable with meaning attached with NA's as per data desctiption  
+# #find and remove features where 80% of the data is missing.
+# gt_80_pct <- 
+# 
+# #pp1
+# train <- train[, -which(names(train) %in% gt_80_pct)]
+# house_comb <- house_comb[, -which(names(house_comb) %in% gt_80_pct)]
+
+```
+
+#Explortory plots
+
+```{r}
+#check distribution of repsonse variabes
+
+house_comb %>% 
+  filter(set == "train") %>%
+  mutate(log_sale_price = log10(SalePrice)) %>%
+  select(SalePrice, log_sale_price) %>%
+  pivot_longer(everything(), names_to = "Sale", values_to = "price") %>%
+  ggplot(aes(x = price)) +
+  geom_histogram() + facet_wrap(Sale~., scales = "free") +
+  labs(title = "distribution of Price") +
+  theme_bw()
+
+```
+
+Sale Price distribtion is right skewed however log transformation is Normal and is a candidate for Linear Regression. Lets explore other features.
+
+```{r}
+plot_bar(house_comb, ggtheme = theme_minimal())
+plot_histogram(house_comb, ggtheme = theme_minimal())
+
+
+house_comb %>% mutate(SalePrice = SalePrice/1000) %>%
+plot_boxplot(by = "SalePrice") 
+
+house_comb %>%
+  select_if(is.numeric) %>%
+  corrr::correlate() %>%
+  rearrange() %>%
+  shave() %>% rplot + theme(axis.text.x = element_text(angle = 90))
+
+house_comb %>% get_corr_df_simple(cut_off = 0.6)
+
+
+house_comb[, nearZeroVar(house_comb)] %>%
+  mutate_if(is.character, as.factor) %>%
+  summary
+
+house_comb %>% filter(set == "train") %>%
+  group_by(Street) %>%
+  summarise(sumry = list(summary(SalePrice))) %>% 
+  mutate(sumry = map(sumry, ~ data.frame(t(.)))) %>%
+  unnest(sumry) %>% pivot_wider(names_from = Street, values_from = Freq)
+
+#cfeatures that can be dropped based on correlations
+
+cpr_variables_0.79 <- c("GarageCars", "GarageYrBlt", "OverallQual" )
+
+#pp2
+# train <- train[,-which(names(train) %in% cpr_variables_0.79)]
+# house_comb <-
+#   house_comb[,-which(names(house_comb) %in% cpr_variables_0.79)]
+
+#pp3
+#convert from numeric to factors
+# train[,  which(names(train) %in% c("MSSubClass",
+#                                              "OverallQual",
+#                                              "OverallCond"))] <-
+#   map(train[,  which(names(train) %in% c("MSSubClass",
+#                                                "OverallQual",
+#                                                "OverallCond"))], as.factor)
+# 
+# 
+# house_comb[,  which(names(house_comb) %in% c("MSSubClass",
+#                                              "OverallQual",
+#                                              "OverallCond"))] <-
+#   map(house_comb[,  which(names(house_comb) %in% c("MSSubClass",
+#                                                "OverallQual",
+#                                                "OverallCond"))], as.factor)
+# #dates
+#c("YearBuilt", "YearRemodAdd", "YrSold", "MoSold")
+
+#exploring prices with dates
+
+house_comb %>% 
+  filter(set == "train") %>%
+  select_at(vars(starts_with("Year"), starts_with("MoSold"), SalePrice)) %>%
+  pivot_longer(-SalePrice, names_to = "time_metric", values_to = "unit") %>%
+  ggplot(aes(y = SalePrice, x = unit )) + geom_point() + facet_wrap(.~time_metric, scales = "free")
+  
+
+
+house_comb %>% 
+  filter(set == "train") %>%
+  select_at(vars(starts_with("Year"), starts_with("MoSold"), SalePrice)) %>%
+  pivot_longer(-SalePrice, names_to = "time_metric", values_to = "unit") %>%
+  ggplot(aes(y = SalePrice, x = as.factor(unit) )) + geom_boxplot() + facet_wrap(.~time_metric, scales = "free") + theme_light()
+  
+
+```
+
+
+#create a prelim model
+
+#create a training test split
+```{r}
+
+#pp3
+house <- train %>%
+  
+  #converting sales to log scale
+  mutate(log_sale_price = log(SalePrice)) %>%
+  
+  # work with traing set of the comp
+  #filter(set == "train") %>%
+  
+  #fill in missing values NA for factor variables as per data description
+  
+  #Alley
+  mutate(Alley = if_else(is.na(Alley), "No Alley", Alley)) %>%
+  
+  #Bsmt
+  mutate(
+    BsmtCond = if_else(is.na(BsmtCond), "No Bsmnt", BsmtCond),
+    BsmtExposure =  if_else(is.na(BsmtExposure), "No Bsmnt", BsmtExposure),
+    BsmtQual = if_else(is.na(BsmtQual), "No Bsmnt", BsmtQual),
+    BsmtFinType1 =  if_else(is.na(BsmtFinType1), "No Bsmnt", BsmtFinType1),
+    BsmtFinType2 =  if_else(is.na(BsmtFinType2), "No Bsmnt", BsmtFinType2),
+    BsmtFinSF1 =  if_else(is.na(BsmtFinSF1), 0, BsmtFinSF1),
+    BsmtFinSF2 =  if_else(is.na(BsmtFinSF2), 0, BsmtFinSF2),
+    BsmtUnfSF =  if_else(is.na(BsmtUnfSF), 0, BsmtUnfSF),
+    TotalBsmtSF =  if_else(is.na(TotalBsmtSF), 0, TotalBsmtSF),
+    BsmtFullBath =  if_else(is.na(BsmtFullBath), 0, BsmtFullBath),
+    BsmtHalfBath =  if_else(is.na(BsmtHalfBath), 0, BsmtHalfBath)
+    
+  ) %>%
+  
+  #Garage
+  #GarageType, GarageType, GarageFinish, GarageQual, GarageCond, 'GarageYrBlt', 'GarageArea', 'GarageCars'
+  mutate(
+    GarageType = if_else(is.na(GarageType), "No Garage", GarageType),
+    GarageFinish =  if_else(is.na(GarageFinish), "No Garage", GarageFinish),
+    GarageQual = if_else(is.na(GarageQual), "No Garage", GarageQual),
+    GarageCond =  if_else(is.na(GarageCond), "No Garage", GarageCond),
+    GarageYrBlt =  if_else(is.na(GarageYrBlt), 0, GarageYrBlt),
+    GarageArea =  if_else(is.na(GarageArea), 0, GarageArea),
+    GarageCars =  if_else(is.na(GarageCond), 0, GarageCars)
+  ) %>%
+  
+  mutate(MasVnrType = if_else(is.na(MasVnrType), "No MasVnrType", MasVnrType)) %>%
+  mutate(MasVnrArea = if_else(is.na(MasVnrArea), 0, MasVnrArea)) %>%
+  
+  
+  #FireplaceQu, PoolQC,Fence, MiscFeature
+  mutate(
+    FireplaceQu = if_else(is.na(FireplaceQu), "No Fireplc", FireplaceQu),
+    PoolQC =  if_else(is.na(PoolQC), "No Pool", PoolQC),
+    Fence = if_else(is.na(Fence), "No Fence", Fence),
+    MiscFeature =  if_else(is.na(MiscFeature), "None", MiscFeature)
+  ) %>%
+  
+  mutate(YrBuilt_cat = cut2(YearBuilt, cuts = seq(min(YearBuilt), max(YearBuilt), 5))) %>%
+  
+  mutate(YearRemodAdd = if_else(is.na(YearRemodAdd), YearBuilt, YearRemodAdd)) %>%
+  
+  
+  #remove non contributing features and IDs
+  select(-Id,-SalePrice, -set)
+
+
+set.seed(1234)
+house_split <- initial_split(house)
+
+
+```
+
+#Preprocess_final
+```{r}
+
+#month <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct",  "Nov", "Dec" )
+
+train_split <- training(house_split)
+house_recipe <- train_split %>%
+  recipe(log_sale_price ~ .) %>%
+  step_string2factor(all_nominal(), -all_outcomes()) %>%
+  step_num2factor(MoSold, levels = as.character(unique(train_split$MoSold))) %>%
+  step_num2factor(YrSold, levels = as.character(unique(train_split$YrSold))) %>%
+  step_num2factor(MSSubClass, levels = as.character(unique(train_split$MSSubClass))) %>%
+  step_num2factor(OverallCond, levels = as.character(unique(train_split$OverallCond))) %>%
+  step_knnimpute(all_predictors(), -all_outcomes()) %>% 
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_center(all_predictors(), -all_outcomes()) %>%
+  step_scale(all_predictors(), -all_outcomes()) %>%
+  step_corr(all_predictors()) %>%
+  step_nzv(all_predictors()) %>%
+  prep()
+
+house_recipe_treebased <- train_split %>%
+  recipe(log_sale_price ~ .) %>%
+  step_string2factor(all_nominal(), -all_outcomes()) %>%
+  step_num2factor(MoSold, levels = as.character(unique(train_split$MoSold))) %>%
+  step_num2factor(YrSold, levels = as.character(unique(train_split$YrSold))) %>%
+  step_num2factor(MSSubClass, levels = as.character(unique(train_split$MSSubClass))) %>%
+  step_num2factor(OverallCond, levels = as.character(unique(train_split$OverallCond))) %>%
+  step_knnimpute(all_predictors(), -all_outcomes()) %>%
+  #step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_center(all_numeric(), -all_outcomes()) %>%
+  step_scale(all_numeric(), -all_outcomes()) %>%
+  step_corr(all_numeric()) %>%
+  step_nzv(all_numeric()) %>%
+  prep()
+
+```
+
+
+#Train and Test split
+```{r}
+house_train <- juice(house_recipe)
+house_test <- bake(house_recipe, testing(house_split))
+
+#splits for tree based algo
+house_train_treebased <- juice(house_recipe_treebased)
+house_test_treebased <- bake(house_recipe_treebased, testing(house_split))
+```
+
+
+
+#Train model
+
+#linear regression
+```{r}
+
+#linear model
+lm_model <- #recipe(log_sale_price ~ . , data = house_train) %>%
+  linear_reg() %>%
+  set_mode("regression") %>%
+  set_engine("lm") %>%
+  fit(log_sale_price ~ . , data = house_train)
+
+
+
+```
+
+#random forest
+```{r}
+
+#create recepie on the preped house train data
+rf_rec <-
+  recipe(log_sale_price ~. , data = house_train_treebased)
+
+#give model spec
+rf_mod <-
+  rand_forest(mtry = tune(), min_n = tune()) %>%
+  set_engine("ranger") %>%
+  set_mode("regression")
+
+#create Search grid
+rf_grid <-
+  grid_regular(mtry(range = c(15,40)), min_n(range= c(10, 2)), levels = 5)
+
+#create samples for cross validation
+folds <- vfold_cv(house_train_treebased, v = 10)
+
+#create models with grid search
+rf_res <-
+  tune_grid(rf_rec, model = rf_mod, resamples = folds ,  grid = rf_grid)
+
+final_mtry <- select_best(rf_res, "rmse", maximize = FALSE)$mtry
+final_min_node <- select_best(rf_res, "rmse", maximize = FALSE)$min_n
+
+#random forest
+rf_model <- rand_forest(mtry = final_mtry, min_n = final_min_node) %>%
+  set_mode("regression") %>%
+  set_engine("ranger",importance = 'impurity') %>%
+  fit(log_sale_price ~ . , data = house_train_treebased)
+
+#Visualise Feature Importance
+vi(rf_model$fit) %>% mutate(Variable = fct_reorder(Variable, abs(Importance)), abs_importance = abs(Importance)) %>% arrange(desc(abs_importance)) %>% top_n(20) %>%
+ggplot(aes(x = Variable, y = abs_importance)) + geom_col() + coord_flip()
+
+```
+
+
+#xgboost
+```{r}
+#xgboost
+xg_model <- boost_tree() %>%
+  set_mode("regression") %>%
+  set_engine("xgboost") %>%
+  fit(log_sale_price ~ . , data = house_train_treebased)
+
+```
+
+
+#linear model ridge
+```{r}
+
+ridge_rec <-
+  recipe(log_sale_price ~. , data = house_train)
+
+ridge_mod <-
+  linear_reg(penalty = tune(), mixture = tune()) %>%
+  set_engine("glmnet")
+ 
+
+ridge_grid <- expand.grid(penalty = seq(from = 0.01, to = 0.2, by=0.001), mixture = 0)
+
+folds <- vfold_cv(house_train, v = 10)
+
+ridge_res <-
+  tune_grid(ridge_rec, model = ridge_mod, resamples = folds ,  grid = ridge_grid)
+
+autoplot(ridge_res)
+
+final_penalty <- select_best(ridge_res, "rmse", maximize = FALSE)$penalty
+
+#apply best tuning parameter linear model ridge
+lm_ridge_model <- linear_reg(penalty = final_penalty , mixture = 0) %>%
+  set_mode("regression") %>%
+  set_engine("glmnet") %>%
+  fit(log_sale_price ~. , data = house_train)
+
+#Visualise Feature Importance
+vi(lm_ridge_model$fit) %>% mutate(Variable = fct_reorder(Variable, abs(Importance)), abs_importance = abs(Importance)) %>% arrange(desc(abs_importance)) %>% top_n(20) %>%
+ggplot(aes(x = Variable, y = abs_importance, fill = Sign)) + geom_col() + coord_flip()
+
+vi(lm_ridge_model$fit) %>% mutate(Variable = fct_reorder(Variable, abs(Importance)), abs_importance = abs(Importance)) %>% arrange(desc(abs_importance)) %>% top_n(20) %>% ggplot(aes(x = Variable, y = Importance, fill = Sign)) + geom_col() + coord_flip()
+
+#Visulaise beta strength
+as.data.frame(as.matrix(lm_ridge_model$fit$beta)) %>%  rownames_to_column() %>% pivot_longer(-rowname) %>% group_by(rowname) %>% summarise(mean_beta = mean(value), se_beta = sd(value)) %>% ungroup %>% ggplot(aes(y = 1, x = mean_beta, , size = abs(mean_beta)), alpha = 0.2) + geom_text(aes(label = rowname), position = position_jitter())
+
+
+```
+
+
+
+
+
+
+```{r}
+
+lasso_rec <-
+  recipe(log_sale_price ~. , data = house_train)
+
+lasso_mod <-
+  linear_reg(penalty = tune(), mixture = tune()) %>%
+  set_engine("glmnet")
+ 
+lasso_grid <- expand.grid(penalty = seq(from = 0.001, to = 0.005, by = 0.000001), mixture = 1)
+
+folds_lasso <- vfold_cv(house_train, v = 10)
+
+lasso_res <-
+  tune_grid(lasso_rec, model = lasso_mod, resamples = folds_lasso ,  grid = lasso_grid)
+
+lambda_final <-
+  select_best(lasso_res, metric = "rmse", maximize = FALSE) %>% select(penalty) %>% unlist
+
+autoplot(lasso_res)
+
+#apply best tuning parameter linear model ridge
+lm_lasso_model <- linear_reg(penalty =  lambda_final, mixture = 1) %>%
+  set_mode("regression") %>%
+  set_engine("glmnet") %>%
+  fit(log_sale_price ~. , data = house_train)
+
+#Visualise Feature Importance
+vi(lm_lasso_model$fit) %>% mutate(Variable = fct_reorder(Variable, abs(Importance)),
+                                  abs_importance = abs(Importance)) %>% arrange(desc(abs_importance)) %>% top_n(20) %>%
+  ggplot(aes(x = Variable, y = abs_importance, fill = Sign)) + geom_col() + coord_flip()
+
+vi(lm_lasso_model$fit) %>% mutate(Variable = fct_reorder(Variable, abs(Importance)),
+                                  abs_importance = abs(Importance)) %>% arrange(desc(abs_importance)) %>% top_n(20) %>% ggplot(aes(x = Variable, y = Importance, fill = Sign)) + geom_col() + coord_flip()
+
+
+#Visulaise beta strength
+as.data.frame(as.matrix(lm_lasso_model$fit$beta)) %>%  rownames_to_column() %>% pivot_longer(-rowname) %>% group_by(rowname) %>% summarise(mean_beta = mean(value), se_beta = sd(value)) %>% ungroup %>% ggplot(aes(
+  y = 1,
+  x = mean_beta,
+  alpha = 0.2,
+  size = abs(mean_beta)
+)) + geom_text(aes(label = rowname), position = position_jitter())
+
+
+```
+
+#evaluate and consolidate model metrics
+
+```{r}
+
+(
+  map2_df(
+    list(
+      lm = lm_model,
+      rf = rf_model,
+      xg = xg_model,
+      lm_ridge = lm_ridge_model,
+      lm_lasso = lm_lasso_model
+    ),
+    list(
+      house_train,
+      house_train_treebased,
+      house_train_treebased,
+      house_train,
+      house_train
+    ),
+    get_model_metrics
+  ) %>% mutate(data = "train")
+) %>%
+  
+  bind_rows(
+    
+    map2_df(
+      list(lm = lm_model, rf = rf_model, xg = xg_model, lm_ridge = lm_ridge_model, lm_lasso = lm_lasso_model),
+      list(house_test, house_test_treebased, house_test_treebased, house_test, house_test),
+      get_model_metrics
+    )  %>% mutate(data = "test")
+  ) %>%
+  pivot_wider(names_from = data, values_from = .estimate) %>% 
+  unnest  
+  
+```
+
+
+
+
+ 
+
+
+
+
+
+
+
+
