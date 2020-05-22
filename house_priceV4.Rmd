@@ -64,29 +64,35 @@ get_corr_df_simple <- function(df, cut_off = NA) {
 #get model metrics in a dataframe
 get_model_metrics <- function(model, df){
   
-  model_type <- str_replace(class(model)[[1]] , "_", "")
+  #model_type <- str_replace(class(model)[[1]] , "_", "")
+  model_type <- model[[2]]
+  
+  #print(model)
+  # class(model)
+  # print(model[[1]])
+  # print(model[[2]])
   
   #print(deparse(substitute(model)))
 
-  print(names({{model}}))
+  #print(names({{model}}))
   df %>%
-    bind_cols(predict(model, df)) %>%
-    select(log_sale_price, predicted_xg = .pred) %>%
-    
+    bind_cols(predict(model[[1]], df)) %>%
+    select(log_sale_price, predicted = .pred) %>%
+
     #add squared error
     mutate(
-      sq_error_log = (predicted_xg - log_sale_price) ^ 2,
+      sq_error_log = (predicted - log_sale_price) ^ 2,
       sale_price = exp(log_sale_price),
-      predicted_sp = exp(predicted_xg),
+      predicted_sp = exp(predicted),
       sq_error = predicted_sp - sale_price
     ) %>%
-    
+
     #plot erro
     #ggplot(aes(x = sq_error, y = predicted_lm)) + geom_point() + theme_light()
     mutate(truth = log(sale_price),
            estimate = log(predicted_sp)) %>%
-    
-    
+
+
     #get model metrics
     metrics(truth, estimate) %>%
     select(-.estimator) %>%
@@ -539,11 +545,11 @@ as.data.frame(as.matrix(lm_lasso_model$fit$beta)) %>%  rownames_to_column() %>% 
 (
   map2_df(
     list(
-      lm = lm_model,
-      rf = rf_model,
-      xg = xg_model,
-      lm_ridge = lm_ridge_model,
-      lm_lasso = lm_lasso_model
+      lm = list(lm = lm_model,name = "lm"),
+      rf = list(rf = rf_model, name = "rf"),
+      xg = list(xg = xg_model, name ="xg"),
+      ridge = list(lm_ridge = lm_ridge_model, name = "ridge"),
+      lasso = list(lm_lasso = lm_lasso_model, name = "lasso")
     ),
     list(
       house_train,
@@ -559,18 +565,28 @@ as.data.frame(as.matrix(lm_lasso_model$fit$beta)) %>%  rownames_to_column() %>% 
   bind_rows(
     
     map2_df(
-      list(lm = lm_model, rf = rf_model, xg = xg_model, lm_ridge = lm_ridge_model, lm_lasso = lm_lasso_model),
+      list(
+      lm = list(lm = lm_model,name = "lm"),
+      rf = list(rf = rf_model, name = "rf"),
+      xg = list(xg = xg_model, name ="xg"),
+      ridge = list(lm_ridge = lm_ridge_model, name = "ridge"),
+      lasso = list(lm_lasso = lm_lasso_model, name = "lasso")
+    ),
       list(house_test, house_test_treebased, house_test_treebased, house_test, house_test),
       get_model_metrics
     )  %>% mutate(data = "test")
   ) %>%
-  pivot_wider(names_from = data, values_from = .estimate) %>%
-  unnest  
+  # pivot_wider(names_from = data, values_from = .estimate) %>%
+  # unnest %>%
+  
+  #plot the metrics
+  ggplot(aes(y = .estimate, x = m_type, color = data)) + geom_point(size = 4) + theme_light()
+  
   
 ```
 
 
-
+The ridge model gives the best test RMSE value.
 
  
 
