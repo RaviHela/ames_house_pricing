@@ -586,7 +586,7 @@ as.data.frame(as.matrix(lm_lasso_model$fit$beta)) %>%  rownames_to_column() %>% 
 ```
 
 
-The ridge model gives the best test RMSE value.
+The lasso model gives the best test RMSE value. 
 
  
 
