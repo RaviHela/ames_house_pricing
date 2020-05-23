@@ -2,10 +2,13 @@
 title: "house_price_pre_3"
 author: "Ravi Hela"
 date: "22/03/2020"
-output: html_document
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
 ---
 
-#load libraries
+## Load libraries
 
 ```{r}
 library(tidymodels)
@@ -24,7 +27,7 @@ library(Hmisc)
 ```
 
 
-#define some useful functions
+## define some useful functions
 ```{r}
 #function to help filter corelated variables
 split_arrange_names <- function(x){
@@ -103,7 +106,7 @@ get_model_metrics <- function(model, df){
 ```
 
 
-#read data
+## Read data
 ```{r}
 
 train <- read_csv("train.csv")
@@ -115,7 +118,7 @@ names(test) <- make.names(names(test))
 
 ```
 
-#combinie test and train for eda
+## combinie test and train for eda
 
 ```{r}
 lapply(list(train = train, test = test), skim)
@@ -127,10 +130,10 @@ skim(house_comb)
 
 ```
 
-#eda
+## Eda
 
-#data quality
-#missing values
+Doing an EDA for data quality checks. We first check for missing values
+
 ```{r}
 profile_missing(house_comb) %>%
   arrange(desc(pct_missing))
@@ -138,17 +141,11 @@ profile_missing(house_comb) %>%
 plot_missing(house_comb)
 
 
-## these are factor variable with meaning attached with NA's as per data desctiption  
-# #find and remove features where 80% of the data is missing.
-# gt_80_pct <- 
-# 
-# #pp1
-# train <- train[, -which(names(train) %in% gt_80_pct)]
-# house_comb <- house_comb[, -which(names(house_comb) %in% gt_80_pct)]
-
 ```
 
-#Explortory plots
+The missing values is result of absence of a particular feature in the property. We will code the missing values as with approproate categorical variable later on.
+
+# Further Data Exploration
 
 ```{r}
 #check distribution of repsonse variabes
@@ -165,15 +162,38 @@ house_comb %>%
 
 ```
 
-Sale Price distribtion is right skewed however log transformation is Normal and is a candidate for Linear Regression. Lets explore other features.
+Sale Price distribtion is right skewed however log transformation is Normal and is a candidate for Linear Regression.
+Lets explore other features.
+
+
+# Check distribution of categorical variables
 
 ```{r}
 plot_bar(house_comb, ggtheme = theme_minimal())
+
+```
+
+# Check distribution of Numeric features
+
+```{r}
+
 plot_histogram(house_comb, ggtheme = theme_minimal())
 
+```
+
+
+# Explore categorical variables against Sale price.
+```{r}
 
 house_comb %>% mutate(SalePrice = SalePrice/1000) %>%
 plot_boxplot(by = "SalePrice") 
+
+```
+
+
+# Checking correlation among variables
+
+```{r}
 
 house_comb %>%
   select_if(is.numeric) %>%
@@ -183,46 +203,36 @@ house_comb %>%
 
 house_comb %>% get_corr_df_simple(cut_off = 0.6)
 
+```
+
+
+# Check for near zero variables
+
+```{r}
 
 house_comb[, nearZeroVar(house_comb)] %>%
   mutate_if(is.character, as.factor) %>%
   summary
+```
 
+
+# Curious to know if street type makes a difference
+```{r}
 house_comb %>% filter(set == "train") %>%
   group_by(Street) %>%
   summarise(sumry = list(summary(SalePrice))) %>% 
   mutate(sumry = map(sumry, ~ data.frame(t(.)))) %>%
   unnest(sumry) %>% pivot_wider(names_from = Street, values_from = Freq)
 
-#cfeatures that can be dropped based on correlations
+```
 
-cpr_variables_0.79 <- c("GarageCars", "GarageYrBlt", "OverallQual" )
+In general we do see House in pavement have higher Sale price than the Gravel.
 
-#pp2
-# train <- train[,-which(names(train) %in% cpr_variables_0.79)]
-# house_comb <-
-#   house_comb[,-which(names(house_comb) %in% cpr_variables_0.79)]
 
-#pp3
-#convert from numeric to factors
-# train[,  which(names(train) %in% c("MSSubClass",
-#                                              "OverallQual",
-#                                              "OverallCond"))] <-
-#   map(train[,  which(names(train) %in% c("MSSubClass",
-#                                                "OverallQual",
-#                                                "OverallCond"))], as.factor)
-# 
-# 
-# house_comb[,  which(names(house_comb) %in% c("MSSubClass",
-#                                              "OverallQual",
-#                                              "OverallCond"))] <-
-#   map(house_comb[,  which(names(house_comb) %in% c("MSSubClass",
-#                                                "OverallQual",
-#                                                "OverallCond"))], as.factor)
-# #dates
-#c("YearBuilt", "YearRemodAdd", "YrSold", "MoSold")
 
-#exploring prices with dates
+# Checking affect of time over Sale Price
+
+```{r}
 
 house_comb %>% 
   filter(set == "train") %>%
@@ -242,9 +252,26 @@ house_comb %>%
 ```
 
 
-#create a prelim model
+There is no particular effect of month sold on Sale price. However, In general we dprices does increase Year on Year which makes common sense.
 
-#create a training test split
+
+# Based on our explorations above lets will do some preliminary data cleaning on the train data set
+
+The code below will fix few missing values which are actually features not present in a property.
+These features are related to
+. Alley
+. Bsmt
+. Garage
+. FireplaceQu
+. PoolQC
+. Fence
+. MiscFeatures
+. MasVnr
+
+We also create a categorical bucketing variable out of YearSold and Yr Modelled. We create new variabe 'log_sale_price' that is log of Sale Price. This new variable will be used as  response variables.
+
+Last we remove Id, Sale Price and set variable that will not contribute to the model.
+
 ```{r}
 
 #pp3
@@ -253,8 +280,6 @@ house <- train %>%
   #converting sales to log scale
   mutate(log_sale_price = log(SalePrice)) %>%
   
-  # work with traing set of the comp
-  #filter(set == "train") %>%
   
   #fill in missing values NA for factor variables as per data description
   
@@ -308,22 +333,25 @@ house <- train %>%
   
   #remove non contributing features and IDs
   select(-Id,-SalePrice, -set)
+```
 
+
+
+# Creating a Training and Validation set using rsample
+```{r}
 
 set.seed(1234)
 house_split <- initial_split(house)
 
+train_split <- training(house_split)
 
 ```
 
-#Preprocess_final
+
+# Create recepies with series of preprocessing step on training set
+
 ```{r}
 
-#month <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct",  "Nov", "Dec" )
-
-train_split <- training(house_split)
-
-doParallel::registerDoParallel()
 house_recipe <- train_split %>%
   recipe(log_sale_price ~ .) %>%
   step_string2factor(all_nominal(), -all_outcomes()) %>%
@@ -336,12 +364,14 @@ house_recipe <- train_split %>%
   step_scale(all_predictors(), -all_outcomes()) %>%
   step_corr(all_predictors()) %>%
   step_nzv(all_predictors()) %>%
-  step_knnimpute(all_predictors(), -all_outcomes()) %>%
+  step_knnimpute(all_predictors(), -all_outcomes()) 
   # step_corr(all_predictors()) %>%
   # step_nzv(all_predictors()) %>%
-  prep()
-
+  
 doParallel::registerDoParallel()
+house_prep <- prep(house_recipe)
+
+
 house_recipe_treebased <- train_split %>%
   recipe(log_sale_price ~ .) %>%
   step_string2factor(all_nominal(), -all_outcomes()) %>%
@@ -354,27 +384,29 @@ house_recipe_treebased <- train_split %>%
   # step_scale(all_numeric(), -all_outcomes()) %>%
   step_corr(all_numeric()) %>%
   step_nzv(all_numeric()) %>%
-  step_knnimpute(all_predictors(), -all_outcomes()) %>%
-  prep()
+  step_knnimpute(all_predictors(), -all_outcomes())
+
+doParallel::registerDoParallel()    
+house_treebased_prep <- prep(house_recipe_treebased)
 
 ```
 
 
-#Train and Test split
+# Applying preprocessing on training and validation(testing) set 
 ```{r}
-house_train <- juice(house_recipe)
-house_test <- bake(house_recipe, testing(house_split))
+house_train <- juice(house_prep)
+house_test <- bake(house_prep, testing(house_split))
 
 #splits for tree based algo
-house_train_treebased <- juice(house_recipe_treebased)
-house_test_treebased <- bake(house_recipe_treebased, testing(house_split))
+house_train_treebased <- juice(house_treebased_prep)
+house_test_treebased <- bake(house_treebased_prep, testing(house_split))
 ```
 
 
 
-#Train model
+## Train models
 
-#linear regression
+# linear regression
 ```{r}
 
 #linear model
@@ -385,10 +417,9 @@ lm_model <- #recipe(log_sale_price ~ . , data = house_train) %>%
   fit(log_sale_price ~ . , data = house_train)
 
 
-
 ```
 
-#random forest
+# random forest
 ```{r}
 
 #create recepie on the preped house train data
@@ -431,7 +462,7 @@ ggplot(aes(x = Variable, y = abs_importance)) + geom_col() + coord_flip()
 ```
 
 
-#xgboost
+# xgboost
 ```{r}
 
 doParallel::registerDoParallel()
@@ -444,7 +475,7 @@ xg_model <- boost_tree() %>%
 ```
 
 
-#linear model ridge
+# linear model ridge
 ```{r}
 
 ridge_rec <-
@@ -490,7 +521,7 @@ as.data.frame(as.matrix(lm_ridge_model$fit$beta)) %>%  rownames_to_column() %>% 
 
 
 
-
+# linear model lasso
 ```{r}
 
 lasso_rec <-
@@ -538,7 +569,7 @@ as.data.frame(as.matrix(lm_lasso_model$fit$beta)) %>%  rownames_to_column() %>% 
 
 ```
 
-#evaluate and consolidate model metrics
+# evaluate and consolidate model metrics
 
 ```{r}
 
