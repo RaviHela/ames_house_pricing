@@ -1,0 +1,1954 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={house\_price\_pre\_3},
+  pdfauthor={Ravi Hela},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{house\_price\_pre\_3}
+\author{Ravi Hela}
+\date{22/03/2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{load-libraries}{%
+\subsection{Load libraries}\label{load-libraries}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidymodels)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------
+\end{verbatim}
+
+\begin{verbatim}
+## v broom     0.5.6      v recipes   0.1.12
+## v dials     0.0.6      v rsample   0.0.6 
+## v dplyr     0.8.5      v tibble    3.0.1 
+## v ggplot2   3.3.0      v tune      0.1.0 
+## v infer     0.5.1      v workflows 0.1.1 
+## v parsnip   0.1.1      v yardstick 0.0.6 
+## v purrr     0.3.4
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts -----------------------
+## x purrr::discard()  masks scales::discard()
+## x dplyr::filter()   masks stats::filter()
+## x dplyr::lag()      masks stats::lag()
+## x ggplot2::margin() masks dials::margin()
+## x recipes::step()   masks stats::step()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(readr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'readr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:yardstick':
+## 
+##     spec
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:scales':
+## 
+##     col_factor
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------
+\end{verbatim}
+
+\begin{verbatim}
+## v tidyr   1.0.3     v forcats 0.5.0
+## v stringr 1.4.0
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts -----------------------
+## x readr::col_factor() masks scales::col_factor()
+## x purrr::discard()    masks scales::discard()
+## x dplyr::filter()     masks stats::filter()
+## x stringr::fixed()    masks recipes::fixed()
+## x dplyr::lag()        masks stats::lag()
+## x ggplot2::margin()   masks dials::margin()
+## x readr::spec()       masks yardstick::spec()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(lubridate)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'lubridate'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     intersect, setdiff, union
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     date, intersect, setdiff, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(skimr)}
+\KeywordTok{library}\NormalTok{(DataExplorer)}
+\KeywordTok{library}\NormalTok{(tidyquant)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: PerformanceAnalytics
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: xts
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: zoo
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'zoo'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     as.Date, as.Date.numeric
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'xts'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     first, last
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'PerformanceAnalytics'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:graphics':
+## 
+##     legend
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: quantmod
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: TTR
+\end{verbatim}
+
+\begin{verbatim}
+## Registered S3 method overwritten by 'quantmod':
+##   method            from
+##   as.zoo.data.frame zoo
+\end{verbatim}
+
+\begin{verbatim}
+## Version 0.4-0 included new data defaults. See ?getSymbols.
+\end{verbatim}
+
+\begin{verbatim}
+## == Need to Learn tidyquant? ========
+## Business Science offers a 1-hour course - Learning Lab #9: Performance Analysis & Portfolio Optimization with tidyquant!
+## </> Learn more at: https://university.business-science.io/p/learning-labs-pro </>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(corrr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'corrr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:skimr':
+## 
+##     focus
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(caret)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: lattice
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'caret'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:yardstick':
+## 
+##     precision, recall, sensitivity, specificity
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     lift
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(vip)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'vip'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:utils':
+## 
+##     vi
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(Hmisc)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: survival
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'survival'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:caret':
+## 
+##     cluster
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: Formula
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'Hmisc'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:quantmod':
+## 
+##     Lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:parsnip':
+## 
+##     translate
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     src, summarize
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     format.pval, units
+\end{verbatim}
+
+\hypertarget{define-some-useful-functions}{%
+\subsection{define some useful
+functions}\label{define-some-useful-functions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#function to help filter corelated variables}
+\NormalTok{split_arrange_names <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{}
+  
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{paste0}\NormalTok{(}\KeywordTok{sort}\NormalTok{(}\KeywordTok{unlist}\NormalTok{(}\KeywordTok{str_split}\NormalTok{(x, }\StringTok{"_"}\NormalTok{))), }\DataTypeTok{collapse =} \StringTok{""}\NormalTok{))}
+\NormalTok{\}}
+
+\CommentTok{#get simplifeid correlation dataframe}
+\NormalTok{get_corr_df_simple <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(df, }\DataTypeTok{cut_off =} \OtherTok{NA}\NormalTok{) \{}
+  
+\NormalTok{  simpl_df <-}
+\StringTok{    }\NormalTok{df }\OperatorTok{%>%}\StringTok{ }\KeywordTok{select_if}\NormalTok{(is.numeric) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{correlate}\NormalTok{(}\DataTypeTok{use =} \StringTok{"pairwise.complete.obs"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{pivot_longer}\NormalTok{(}
+      \OperatorTok{-}\NormalTok{rowname,}
+      \DataTypeTok{names_to =} \StringTok{"features"}\NormalTok{,}
+      \DataTypeTok{values_to =} \StringTok{"corr"}\NormalTok{,}
+      \DataTypeTok{values_drop_na =}\NormalTok{ T}
+\NormalTok{    ) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{t1 =} \KeywordTok{paste}\NormalTok{(rowname, features, }\DataTypeTok{sep =} \StringTok{"_"}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{t2 =} \KeywordTok{sapply}\NormalTok{(t1, split_arrange_names)) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{arrange}\NormalTok{(t2) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{group_by}\NormalTok{(t2) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{rank =} \KeywordTok{row_number}\NormalTok{(t2)) }\OperatorTok{%>%}
+\StringTok{    }\NormalTok{ungroup }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(rank }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{select}\NormalTok{(rowname, features, corr) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(}\KeywordTok{abs}\NormalTok{(corr))) }
+  
+  \ControlFlowTok{if}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(cut_off))\{}
+    \KeywordTok{return}\NormalTok{(simpl_df)}
+\NormalTok{  \}}\ControlFlowTok{else}\NormalTok{\{}
+    
+    \KeywordTok{return}\NormalTok{(simpl_df }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\KeywordTok{abs}\NormalTok{(corr) }\OperatorTok{>=}\StringTok{ }\NormalTok{cut_off))}
+\NormalTok{  \}}
+  
+\NormalTok{\}}
+
+\CommentTok{#get model metrics in a dataframe}
+\NormalTok{get_model_metrics <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(model, df)\{}
+  
+  \CommentTok{#model_type <- str_replace(class(model)[[1]] , "_", "")}
+\NormalTok{  model_type <-}\StringTok{ }\NormalTok{model[[}\DecValTok{2}\NormalTok{]]}
+  
+  \CommentTok{#print(model)}
+  \CommentTok{# class(model)}
+  \CommentTok{# print(model[[1]])}
+  \CommentTok{# print(model[[2]])}
+  
+  \CommentTok{#print(deparse(substitute(model)))}
+
+  \CommentTok{#print(names(\{\{model\}\}))}
+\NormalTok{  df }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{bind_cols}\NormalTok{(}\KeywordTok{predict}\NormalTok{(model[[}\DecValTok{1}\NormalTok{]], df)) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{select}\NormalTok{(log_sale_price, }\DataTypeTok{predicted =}\NormalTok{ .pred) }\OperatorTok{%>%}
+
+\StringTok{    }\CommentTok{#add squared error}
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}
+      \DataTypeTok{sq_error_log =}\NormalTok{ (predicted }\OperatorTok{-}\StringTok{ }\NormalTok{log_sale_price) }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{,}
+      \DataTypeTok{sale_price =} \KeywordTok{exp}\NormalTok{(log_sale_price),}
+      \DataTypeTok{predicted_sp =} \KeywordTok{exp}\NormalTok{(predicted),}
+      \DataTypeTok{sq_error =}\NormalTok{ predicted_sp }\OperatorTok{-}\StringTok{ }\NormalTok{sale_price}
+\NormalTok{    ) }\OperatorTok{%>%}
+
+\StringTok{    }\CommentTok{#plot erro}
+\StringTok{    }\CommentTok{#ggplot(aes(x = sq_error, y = predicted_lm)) + geom_point() + theme_light()}
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{truth =} \KeywordTok{log}\NormalTok{(sale_price),}
+           \DataTypeTok{estimate =} \KeywordTok{log}\NormalTok{(predicted_sp)) }\OperatorTok{%>%}
+
+\StringTok{    }\CommentTok{#get model metrics}
+\StringTok{    }\KeywordTok{metrics}\NormalTok{(truth, estimate) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{.estimator) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{m_type  =}\NormalTok{ model_type) }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{filter}\NormalTok{(.metric }\OperatorTok{==}\StringTok{ "rmse"}\NormalTok{)}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{read-data}{%
+\subsection{Read data}\label{read-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"train.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   Id = col_double(),
+##   MSSubClass = col_double(),
+##   LotFrontage = col_double(),
+##   LotArea = col_double(),
+##   OverallQual = col_double(),
+##   OverallCond = col_double(),
+##   YearBuilt = col_double(),
+##   YearRemodAdd = col_double(),
+##   MasVnrArea = col_double(),
+##   BsmtFinSF1 = col_double(),
+##   BsmtFinSF2 = col_double(),
+##   BsmtUnfSF = col_double(),
+##   TotalBsmtSF = col_double(),
+##   `1stFlrSF` = col_double(),
+##   `2ndFlrSF` = col_double(),
+##   LowQualFinSF = col_double(),
+##   GrLivArea = col_double(),
+##   BsmtFullBath = col_double(),
+##   BsmtHalfBath = col_double(),
+##   FullBath = col_double()
+##   # ... with 18 more columns
+## )
+\end{verbatim}
+
+\begin{verbatim}
+## See spec(...) for full column specifications.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"test.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   Id = col_double(),
+##   MSSubClass = col_double(),
+##   LotFrontage = col_double(),
+##   LotArea = col_double(),
+##   OverallQual = col_double(),
+##   OverallCond = col_double(),
+##   YearBuilt = col_double(),
+##   YearRemodAdd = col_double(),
+##   MasVnrArea = col_double(),
+##   BsmtFinSF1 = col_double(),
+##   BsmtFinSF2 = col_double(),
+##   BsmtUnfSF = col_double(),
+##   TotalBsmtSF = col_double(),
+##   `1stFlrSF` = col_double(),
+##   `2ndFlrSF` = col_double(),
+##   LowQualFinSF = col_double(),
+##   GrLivArea = col_double(),
+##   BsmtFullBath = col_double(),
+##   BsmtHalfBath = col_double(),
+##   FullBath = col_double()
+##   # ... with 17 more columns
+## )
+## See spec(...) for full column specifications.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(train) <-}\StringTok{ }\KeywordTok{make.names}\NormalTok{(}\KeywordTok{names}\NormalTok{(train))}
+\KeywordTok{names}\NormalTok{(test) <-}\StringTok{ }\KeywordTok{make.names}\NormalTok{(}\KeywordTok{names}\NormalTok{(test))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{combinie-test-and-train-for-eda}{%
+\subsection{combinie test and train for
+eda}\label{combinie-test-and-train-for-eda}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(}\DataTypeTok{train =}\NormalTok{ train, }\DataTypeTok{test =}\NormalTok{ test), skim)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $train
+## -- Data Summary ------------------------
+##                            Values
+## Name                       X[[i]]
+## Number of rows             1460  
+## Number of columns          81    
+## _______________________          
+## Column type frequency:           
+##   character                43    
+##   numeric                  38    
+## ________________________         
+## Group variables            None  
+## 
+## -- Variable type: character ----------------------------------------------------
+## # A tibble: 43 x 8
+##    skim_variable n_missing complete_rate   min   max empty n_unique whitespace
+##  * <chr>             <int>         <dbl> <int> <int> <int>    <int>      <int>
+##  1 MSZoning              0       1           2     7     0        5          0
+##  2 Street                0       1           4     4     0        2          0
+##  3 Alley              1369       0.0623      4     4     0        2          0
+##  4 LotShape              0       1           3     3     0        4          0
+##  5 LandContour           0       1           3     3     0        4          0
+##  6 Utilities             0       1           6     6     0        2          0
+##  7 LotConfig             0       1           3     7     0        5          0
+##  8 LandSlope             0       1           3     3     0        3          0
+##  9 Neighborhood          0       1           5     7     0       25          0
+## 10 Condition1            0       1           4     6     0        9          0
+## 11 Condition2            0       1           4     6     0        8          0
+## 12 BldgType              0       1           4     6     0        5          0
+## 13 HouseStyle            0       1           4     6     0        8          0
+## 14 RoofStyle             0       1           3     7     0        6          0
+## 15 RoofMatl              0       1           4     7     0        8          0
+## 16 Exterior1st           0       1           5     7     0       15          0
+## 17 Exterior2nd           0       1           5     7     0       16          0
+## 18 MasVnrType            8       0.995       4     7     0        4          0
+## 19 ExterQual             0       1           2     2     0        4          0
+## 20 ExterCond             0       1           2     2     0        5          0
+## 21 Foundation            0       1           4     6     0        6          0
+## 22 BsmtQual             37       0.975       2     2     0        4          0
+## 23 BsmtCond             37       0.975       2     2     0        4          0
+## 24 BsmtExposure         38       0.974       2     2     0        4          0
+## 25 BsmtFinType1         37       0.975       3     3     0        6          0
+## 26 BsmtFinType2         38       0.974       3     3     0        6          0
+## 27 Heating               0       1           4     5     0        6          0
+## 28 HeatingQC             0       1           2     2     0        5          0
+## 29 CentralAir            0       1           1     1     0        2          0
+## 30 Electrical            1       0.999       3     5     0        5          0
+## 31 KitchenQual           0       1           2     2     0        4          0
+## 32 Functional            0       1           3     4     0        7          0
+## 33 FireplaceQu         690       0.527       2     2     0        5          0
+## 34 GarageType           81       0.945       6     7     0        6          0
+## 35 GarageFinish         81       0.945       3     3     0        3          0
+## 36 GarageQual           81       0.945       2     2     0        5          0
+## 37 GarageCond           81       0.945       2     2     0        5          0
+## 38 PavedDrive            0       1           1     1     0        3          0
+## 39 PoolQC             1453       0.00479     2     2     0        3          0
+## 40 Fence              1179       0.192       4     5     0        4          0
+## 41 MiscFeature        1406       0.0370      4     4     0        4          0
+## 42 SaleType              0       1           2     5     0        9          0
+## 43 SaleCondition         0       1           6     7     0        6          0
+## 
+## -- Variable type: numeric ------------------------------------------------------
+## # A tibble: 38 x 11
+##    skim_variable n_missing complete_rate        mean        sd    p0     p25
+##  * <chr>             <int>         <dbl>       <dbl>     <dbl> <dbl>   <dbl>
+##  1 Id                    0         1        730.       422.        1    366.
+##  2 MSSubClass            0         1         56.9       42.3      20     20 
+##  3 LotFrontage         259         0.823     70.0       24.3      21     59 
+##  4 LotArea               0         1      10517.      9981.     1300   7554.
+##  5 OverallQual           0         1          6.10       1.38      1      5 
+##  6 OverallCond           0         1          5.58       1.11      1      5 
+##  7 YearBuilt             0         1       1971.        30.2    1872   1954 
+##  8 YearRemodAdd          0         1       1985.        20.6    1950   1967 
+##  9 MasVnrArea            8         0.995    104.       181.        0      0 
+## 10 BsmtFinSF1            0         1        444.       456.        0      0 
+## 11 BsmtFinSF2            0         1         46.5      161.        0      0 
+## 12 BsmtUnfSF             0         1        567.       442.        0    223 
+## 13 TotalBsmtSF           0         1       1057.       439.        0    796.
+## 14 X1stFlrSF             0         1       1163.       387.      334    882 
+## 15 X2ndFlrSF             0         1        347.       437.        0      0 
+## 16 LowQualFinSF          0         1          5.84      48.6       0      0 
+## 17 GrLivArea             0         1       1515.       525.      334   1130.
+## 18 BsmtFullBath          0         1          0.425      0.519     0      0 
+## 19 BsmtHalfBath          0         1          0.0575     0.239     0      0 
+## 20 FullBath              0         1          1.57       0.551     0      1 
+## 21 HalfBath              0         1          0.383      0.503     0      0 
+## 22 BedroomAbvGr          0         1          2.87       0.816     0      2 
+## 23 KitchenAbvGr          0         1          1.05       0.220     0      1 
+## 24 TotRmsAbvGrd          0         1          6.52       1.63      2      5 
+## 25 Fireplaces            0         1          0.613      0.645     0      0 
+## 26 GarageYrBlt          81         0.945   1979.        24.7    1900   1961 
+## 27 GarageCars            0         1          1.77       0.747     0      1 
+## 28 GarageArea            0         1        473.       214.        0    334.
+## 29 WoodDeckSF            0         1         94.2      125.        0      0 
+## 30 OpenPorchSF           0         1         46.7       66.3       0      0 
+## 31 EnclosedPorch         0         1         22.0       61.1       0      0 
+## 32 X3SsnPorch            0         1          3.41      29.3       0      0 
+## 33 ScreenPorch           0         1         15.1       55.8       0      0 
+## 34 PoolArea              0         1          2.76      40.2       0      0 
+## 35 MiscVal               0         1         43.5      496.        0      0 
+## 36 MoSold                0         1          6.32       2.70      1      5 
+## 37 YrSold                0         1       2008.         1.33   2006   2007 
+## 38 SalePrice             0         1     180921.     79443.    34900 129975 
+##        p50     p75   p100 hist 
+##  *   <dbl>   <dbl>  <dbl> <chr>
+##  1    730.   1095.   1460 <U+2587><U+2587><U+2587><U+2587><U+2587>
+##  2     50      70     190 <U+2587><U+2585><U+2582><U+2581><U+2581>
+##  3     69      80     313 <U+2587><U+2583><U+2581><U+2581><U+2581>
+##  4   9478.  11602. 215245 <U+2587><U+2581><U+2581><U+2581><U+2581>
+##  5      6       7      10 <U+2581><U+2582><U+2587><U+2585><U+2581>
+##  6      5       6       9 <U+2581><U+2581><U+2587><U+2585><U+2581>
+##  7   1973    2000    2010 <U+2581><U+2582><U+2583><U+2586><U+2587>
+##  8   1994    2004    2010 <U+2585><U+2582><U+2582><U+2583><U+2587>
+##  9      0     166    1600 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 10    384.    712.   5644 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 11      0       0    1474 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 12    478.    808    2336 <U+2587><U+2585><U+2582><U+2581><U+2581>
+## 13    992.   1298.   6110 <U+2587><U+2583><U+2581><U+2581><U+2581>
+## 14   1087    1391.   4692 <U+2587><U+2585><U+2581><U+2581><U+2581>
+## 15      0     728    2065 <U+2587><U+2583><U+2582><U+2581><U+2581>
+## 16      0       0     572 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 17   1464    1777.   5642 <U+2587><U+2587><U+2581><U+2581><U+2581>
+## 18      0       1       3 <U+2587><U+2586><U+2581><U+2581><U+2581>
+## 19      0       0       2 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 20      2       2       3 <U+2581><U+2587><U+2581><U+2587><U+2581>
+## 21      0       1       2 <U+2587><U+2581><U+2585><U+2581><U+2581>
+## 22      3       3       8 <U+2581><U+2587><U+2582><U+2581><U+2581>
+## 23      1       1       3 <U+2581><U+2587><U+2581><U+2581><U+2581>
+## 24      6       7      14 <U+2582><U+2587><U+2587><U+2581><U+2581>
+## 25      1       1       3 <U+2587><U+2587><U+2581><U+2581><U+2581>
+## 26   1980    2002    2010 <U+2581><U+2581><U+2585><U+2585><U+2587>
+## 27      2       2       4 <U+2581><U+2583><U+2587><U+2582><U+2581>
+## 28    480     576    1418 <U+2582><U+2587><U+2583><U+2581><U+2581>
+## 29      0     168     857 <U+2587><U+2582><U+2581><U+2581><U+2581>
+## 30     25      68     547 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 31      0       0     552 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 32      0       0     508 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 33      0       0     480 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 34      0       0     738 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 35      0       0   15500 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 36      6       8      12 <U+2583><U+2586><U+2587><U+2583><U+2583>
+## 37   2008    2009    2010 <U+2587><U+2587><U+2587><U+2587><U+2585>
+## 38 163000  214000  755000 <U+2587><U+2585><U+2581><U+2581><U+2581>
+## 
+## $test
+## -- Data Summary ------------------------
+##                            Values
+## Name                       X[[i]]
+## Number of rows             1459  
+## Number of columns          80    
+## _______________________          
+## Column type frequency:           
+##   character                43    
+##   numeric                  37    
+## ________________________         
+## Group variables            None  
+## 
+## -- Variable type: character ----------------------------------------------------
+## # A tibble: 43 x 8
+##    skim_variable n_missing complete_rate   min   max empty n_unique whitespace
+##  * <chr>             <int>         <dbl> <int> <int> <int>    <int>      <int>
+##  1 MSZoning              4       0.997       2     7     0        5          0
+##  2 Street                0       1           4     4     0        2          0
+##  3 Alley              1352       0.0733      4     4     0        2          0
+##  4 LotShape              0       1           3     3     0        4          0
+##  5 LandContour           0       1           3     3     0        4          0
+##  6 Utilities             2       0.999       6     6     0        1          0
+##  7 LotConfig             0       1           3     7     0        5          0
+##  8 LandSlope             0       1           3     3     0        3          0
+##  9 Neighborhood          0       1           5     7     0       25          0
+## 10 Condition1            0       1           4     6     0        9          0
+## 11 Condition2            0       1           4     6     0        5          0
+## 12 BldgType              0       1           4     6     0        5          0
+## 13 HouseStyle            0       1           4     6     0        7          0
+## 14 RoofStyle             0       1           3     7     0        6          0
+## 15 RoofMatl              0       1           7     7     0        4          0
+## 16 Exterior1st           1       0.999       6     7     0       13          0
+## 17 Exterior2nd           1       0.999       5     7     0       15          0
+## 18 MasVnrType           16       0.989       4     7     0        4          0
+## 19 ExterQual             0       1           2     2     0        4          0
+## 20 ExterCond             0       1           2     2     0        5          0
+## 21 Foundation            0       1           4     6     0        6          0
+## 22 BsmtQual             44       0.970       2     2     0        4          0
+## 23 BsmtCond             45       0.969       2     2     0        4          0
+## 24 BsmtExposure         44       0.970       2     2     0        4          0
+## 25 BsmtFinType1         42       0.971       3     3     0        6          0
+## 26 BsmtFinType2         42       0.971       3     3     0        6          0
+## 27 Heating               0       1           4     4     0        4          0
+## 28 HeatingQC             0       1           2     2     0        5          0
+## 29 CentralAir            0       1           1     1     0        2          0
+## 30 Electrical            0       1           5     5     0        4          0
+## 31 KitchenQual           1       0.999       2     2     0        4          0
+## 32 Functional            2       0.999       3     4     0        7          0
+## 33 FireplaceQu         730       0.500       2     2     0        5          0
+## 34 GarageType           76       0.948       6     7     0        6          0
+## 35 GarageFinish         78       0.947       3     3     0        3          0
+## 36 GarageQual           78       0.947       2     2     0        4          0
+## 37 GarageCond           78       0.947       2     2     0        5          0
+## 38 PavedDrive            0       1           1     1     0        3          0
+## 39 PoolQC             1456       0.00206     2     2     0        2          0
+## 40 Fence              1169       0.199       4     5     0        4          0
+## 41 MiscFeature        1408       0.0350      4     4     0        3          0
+## 42 SaleType              1       0.999       2     5     0        9          0
+## 43 SaleCondition         0       1           6     7     0        6          0
+## 
+## -- Variable type: numeric ------------------------------------------------------
+## # A tibble: 37 x 11
+##    skim_variable n_missing complete_rate      mean       sd    p0   p25   p50
+##  * <chr>             <int>         <dbl>     <dbl>    <dbl> <dbl> <dbl> <dbl>
+##  1 Id                    0         1     2190       421.     1461 1826. 2190 
+##  2 MSSubClass            0         1       57.4      42.7      20   20    50 
+##  3 LotFrontage         227         0.844   68.6      22.4      21   58    67 
+##  4 LotArea               0         1     9819.     4956.     1470 7391  9399 
+##  5 OverallQual           0         1        6.08      1.44      1    5     6 
+##  6 OverallCond           0         1        5.55      1.11      1    5     5 
+##  7 YearBuilt             0         1     1971.       30.4    1879 1953  1973 
+##  8 YearRemodAdd          0         1     1984.       21.1    1950 1963  1992 
+##  9 MasVnrArea           15         0.990  101.      178.        0    0     0 
+## 10 BsmtFinSF1            1         0.999  439.      455.        0    0   350.
+## 11 BsmtFinSF2            1         0.999   52.6     177.        0    0     0 
+## 12 BsmtUnfSF             1         0.999  554.      437.        0  219.  460 
+## 13 TotalBsmtSF           1         0.999 1046.      443.        0  784   988 
+## 14 X1stFlrSF             0         1     1157.      398.      407  874. 1079 
+## 15 X2ndFlrSF             0         1      326.      421.        0    0     0 
+## 16 LowQualFinSF          0         1        3.54     44.0       0    0     0 
+## 17 GrLivArea             0         1     1486.      486.      407 1118. 1432 
+## 18 BsmtFullBath          2         0.999    0.434     0.531     0    0     0 
+## 19 BsmtHalfBath          2         0.999    0.0652    0.252     0    0     0 
+## 20 FullBath              0         1        1.57      0.555     0    1     2 
+## 21 HalfBath              0         1        0.378     0.503     0    0     0 
+## 22 BedroomAbvGr          0         1        2.85      0.830     0    2     3 
+## 23 KitchenAbvGr          0         1        1.04      0.208     0    1     1 
+## 24 TotRmsAbvGrd          0         1        6.39      1.51      3    5     6 
+## 25 Fireplaces            0         1        0.581     0.647     0    0     0 
+## 26 GarageYrBlt          78         0.947 1978.       26.4    1895 1959  1979 
+## 27 GarageCars            1         0.999    1.77      0.776     0    1     2 
+## 28 GarageArea            1         0.999  473.      217.        0  318   480 
+## 29 WoodDeckSF            0         1       93.2     128.        0    0     0 
+## 30 OpenPorchSF           0         1       48.3      68.9       0    0    28 
+## 31 EnclosedPorch         0         1       24.2      67.2       0    0     0 
+## 32 X3SsnPorch            0         1        1.79     20.2       0    0     0 
+## 33 ScreenPorch           0         1       17.1      56.6       0    0     0 
+## 34 PoolArea              0         1        1.74     30.5       0    0     0 
+## 35 MiscVal               0         1       58.2     631.        0    0     0 
+## 36 MoSold                0         1        6.10      2.72      1    4     6 
+## 37 YrSold                0         1     2008.        1.30   2006 2007  2008 
+##       p75  p100 hist 
+##  *  <dbl> <dbl> <chr>
+##  1  2554.  2919 <U+2587><U+2587><U+2587><U+2587><U+2587>
+##  2    70    190 <U+2587><U+2585><U+2582><U+2581><U+2581>
+##  3    80    200 <U+2583><U+2587><U+2581><U+2581><U+2581>
+##  4 11518. 56600 <U+2587><U+2582><U+2581><U+2581><U+2581>
+##  5     7     10 <U+2581><U+2581><U+2587><U+2585><U+2581>
+##  6     6      9 <U+2581><U+2581><U+2587><U+2585><U+2581>
+##  7  2001   2010 <U+2581><U+2582><U+2583><U+2586><U+2587>
+##  8  2004   2010 <U+2585><U+2582><U+2582><U+2583><U+2587>
+##  9   164   1290 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 10   754.  4010 <U+2587><U+2582><U+2581><U+2581><U+2581>
+## 11     0   1526 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 12   798.  2140 <U+2587><U+2586><U+2582><U+2581><U+2581>
+## 13  1305   5095 <U+2587><U+2587><U+2581><U+2581><U+2581>
+## 14  1382.  5095 <U+2587><U+2583><U+2581><U+2581><U+2581>
+## 15   676   1862 <U+2587><U+2583><U+2582><U+2581><U+2581>
+## 16     0   1064 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 17  1721   5095 <U+2587><U+2587><U+2581><U+2581><U+2581>
+## 18     1      3 <U+2587><U+2586><U+2581><U+2581><U+2581>
+## 19     0      2 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 20     2      4 <U+2581><U+2587><U+2587><U+2581><U+2581>
+## 21     1      2 <U+2587><U+2581><U+2585><U+2581><U+2581>
+## 22     3      6 <U+2581><U+2583><U+2587><U+2582><U+2581>
+## 23     1      2 <U+2581><U+2581><U+2587><U+2581><U+2581>
+## 24     7     15 <U+2585><U+2587><U+2583><U+2581><U+2581>
+## 25     1      4 <U+2587><U+2587><U+2581><U+2581><U+2581>
+## 26  2002   2207 <U+2582><U+2587><U+2581><U+2581><U+2581>
+## 27     2      5 <U+2585><U+2587><U+2582><U+2581><U+2581>
+## 28   576   1488 <U+2583><U+2587><U+2583><U+2581><U+2581>
+## 29   168   1424 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 30    72    742 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 31     0   1012 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 32     0    360 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 33     0    576 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 34     0    800 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 35     0  17000 <U+2587><U+2581><U+2581><U+2581><U+2581>
+## 36     8     12 <U+2585><U+2586><U+2587><U+2583><U+2583>
+## 37  2009   2010 <U+2587><U+2587><U+2587><U+2587><U+2583>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test}\OperatorTok{$}\NormalTok{SalePrice <-}\StringTok{ }\OtherTok{NA}
+\NormalTok{test}\OperatorTok{$}\NormalTok{set <-}\StringTok{ "test"}
+\NormalTok{train}\OperatorTok{$}\NormalTok{set <-}\StringTok{ "train"}
+\NormalTok{house_comb <-}\StringTok{ }\KeywordTok{bind_rows}\NormalTok{(train, test)}
+\KeywordTok{skim}\NormalTok{(house_comb)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{Data summary}\tabularnewline
+\toprule
+\endhead
+Name & house\_comb\tabularnewline
+Number of rows & 2919\tabularnewline
+Number of columns & 82\tabularnewline
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ &\tabularnewline
+Column type frequency: &\tabularnewline
+character & 44\tabularnewline
+numeric & 38\tabularnewline
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ &\tabularnewline
+Group variables & None\tabularnewline
+\bottomrule
+\end{longtable}
+
+\textbf{Variable type: character}
+
+\begin{longtable}[]{@{}lrrrrrrr@{}}
+\toprule
+skim\_variable & n\_missing & complete\_rate & min & max & empty &
+n\_unique & whitespace\tabularnewline
+\midrule
+\endhead
+MSZoning & 4 & 1.00 & 2 & 7 & 0 & 5 & 0\tabularnewline
+Street & 0 & 1.00 & 4 & 4 & 0 & 2 & 0\tabularnewline
+Alley & 2721 & 0.07 & 4 & 4 & 0 & 2 & 0\tabularnewline
+LotShape & 0 & 1.00 & 3 & 3 & 0 & 4 & 0\tabularnewline
+LandContour & 0 & 1.00 & 3 & 3 & 0 & 4 & 0\tabularnewline
+Utilities & 2 & 1.00 & 6 & 6 & 0 & 2 & 0\tabularnewline
+LotConfig & 0 & 1.00 & 3 & 7 & 0 & 5 & 0\tabularnewline
+LandSlope & 0 & 1.00 & 3 & 3 & 0 & 3 & 0\tabularnewline
+Neighborhood & 0 & 1.00 & 5 & 7 & 0 & 25 & 0\tabularnewline
+Condition1 & 0 & 1.00 & 4 & 6 & 0 & 9 & 0\tabularnewline
+Condition2 & 0 & 1.00 & 4 & 6 & 0 & 8 & 0\tabularnewline
+BldgType & 0 & 1.00 & 4 & 6 & 0 & 5 & 0\tabularnewline
+HouseStyle & 0 & 1.00 & 4 & 6 & 0 & 8 & 0\tabularnewline
+RoofStyle & 0 & 1.00 & 3 & 7 & 0 & 6 & 0\tabularnewline
+RoofMatl & 0 & 1.00 & 4 & 7 & 0 & 8 & 0\tabularnewline
+Exterior1st & 1 & 1.00 & 5 & 7 & 0 & 15 & 0\tabularnewline
+Exterior2nd & 1 & 1.00 & 5 & 7 & 0 & 16 & 0\tabularnewline
+MasVnrType & 24 & 0.99 & 4 & 7 & 0 & 4 & 0\tabularnewline
+ExterQual & 0 & 1.00 & 2 & 2 & 0 & 4 & 0\tabularnewline
+ExterCond & 0 & 1.00 & 2 & 2 & 0 & 5 & 0\tabularnewline
+Foundation & 0 & 1.00 & 4 & 6 & 0 & 6 & 0\tabularnewline
+BsmtQual & 81 & 0.97 & 2 & 2 & 0 & 4 & 0\tabularnewline
+BsmtCond & 82 & 0.97 & 2 & 2 & 0 & 4 & 0\tabularnewline
+BsmtExposure & 82 & 0.97 & 2 & 2 & 0 & 4 & 0\tabularnewline
+BsmtFinType1 & 79 & 0.97 & 3 & 3 & 0 & 6 & 0\tabularnewline
+BsmtFinType2 & 80 & 0.97 & 3 & 3 & 0 & 6 & 0\tabularnewline
+Heating & 0 & 1.00 & 4 & 5 & 0 & 6 & 0\tabularnewline
+HeatingQC & 0 & 1.00 & 2 & 2 & 0 & 5 & 0\tabularnewline
+CentralAir & 0 & 1.00 & 1 & 1 & 0 & 2 & 0\tabularnewline
+Electrical & 1 & 1.00 & 3 & 5 & 0 & 5 & 0\tabularnewline
+KitchenQual & 1 & 1.00 & 2 & 2 & 0 & 4 & 0\tabularnewline
+Functional & 2 & 1.00 & 3 & 4 & 0 & 7 & 0\tabularnewline
+FireplaceQu & 1420 & 0.51 & 2 & 2 & 0 & 5 & 0\tabularnewline
+GarageType & 157 & 0.95 & 6 & 7 & 0 & 6 & 0\tabularnewline
+GarageFinish & 159 & 0.95 & 3 & 3 & 0 & 3 & 0\tabularnewline
+GarageQual & 159 & 0.95 & 2 & 2 & 0 & 5 & 0\tabularnewline
+GarageCond & 159 & 0.95 & 2 & 2 & 0 & 5 & 0\tabularnewline
+PavedDrive & 0 & 1.00 & 1 & 1 & 0 & 3 & 0\tabularnewline
+PoolQC & 2909 & 0.00 & 2 & 2 & 0 & 3 & 0\tabularnewline
+Fence & 2348 & 0.20 & 4 & 5 & 0 & 4 & 0\tabularnewline
+MiscFeature & 2814 & 0.04 & 4 & 4 & 0 & 4 & 0\tabularnewline
+SaleType & 1 & 1.00 & 2 & 5 & 0 & 9 & 0\tabularnewline
+SaleCondition & 0 & 1.00 & 6 & 7 & 0 & 6 & 0\tabularnewline
+set & 0 & 1.00 & 4 & 5 & 0 & 2 & 0\tabularnewline
+\bottomrule
+\end{longtable}
+
+\textbf{Variable type: numeric}
+
+\begin{longtable}[]{@{}lrrrrrrrrrl@{}}
+\toprule
+skim\_variable & n\_missing & complete\_rate & mean & sd & p0 & p25 &
+p50 & p75 & p100 & hist\tabularnewline
+\midrule
+\endhead
+Id & 0 & 1.00 & 1460.00 & 842.79 & 1 & 730.5 & 1460.0 & 2189.5 & 2919 &
+▇▇▇▇▇\tabularnewline
+MSSubClass & 0 & 1.00 & 57.14 & 42.52 & 20 & 20.0 & 50.0 & 70.0 & 190 &
+▇▅▂▁▁\tabularnewline
+LotFrontage & 486 & 0.83 & 69.31 & 23.34 & 21 & 59.0 & 68.0 & 80.0 & 313
+& ▇▃▁▁▁\tabularnewline
+LotArea & 0 & 1.00 & 10168.11 & 7887.00 & 1300 & 7478.0 & 9453.0 &
+11570.0 & 215245 & ▇▁▁▁▁\tabularnewline
+OverallQual & 0 & 1.00 & 6.09 & 1.41 & 1 & 5.0 & 6.0 & 7.0 & 10 &
+▁▂▇▅▁\tabularnewline
+OverallCond & 0 & 1.00 & 5.56 & 1.11 & 1 & 5.0 & 5.0 & 6.0 & 9 &
+▁▁▇▅▁\tabularnewline
+YearBuilt & 0 & 1.00 & 1971.31 & 30.29 & 1872 & 1953.5 & 1973.0 & 2001.0
+& 2010 & ▁▂▃▆▇\tabularnewline
+YearRemodAdd & 0 & 1.00 & 1984.26 & 20.89 & 1950 & 1965.0 & 1993.0 &
+2004.0 & 2010 & ▅▂▂▃▇\tabularnewline
+MasVnrArea & 23 & 0.99 & 102.20 & 179.33 & 0 & 0.0 & 0.0 & 164.0 & 1600
+& ▇▁▁▁▁\tabularnewline
+BsmtFinSF1 & 1 & 1.00 & 441.42 & 455.61 & 0 & 0.0 & 368.5 & 733.0 & 5644
+& ▇▁▁▁▁\tabularnewline
+BsmtFinSF2 & 1 & 1.00 & 49.58 & 169.21 & 0 & 0.0 & 0.0 & 0.0 & 1526 &
+▇▁▁▁▁\tabularnewline
+BsmtUnfSF & 1 & 1.00 & 560.77 & 439.54 & 0 & 220.0 & 467.0 & 805.5 &
+2336 & ▇▅▂▁▁\tabularnewline
+TotalBsmtSF & 1 & 1.00 & 1051.78 & 440.77 & 0 & 793.0 & 989.5 & 1302.0 &
+6110 & ▇▃▁▁▁\tabularnewline
+X1stFlrSF & 0 & 1.00 & 1159.58 & 392.36 & 334 & 876.0 & 1082.0 & 1387.5
+& 5095 & ▇▃▁▁▁\tabularnewline
+X2ndFlrSF & 0 & 1.00 & 336.48 & 428.70 & 0 & 0.0 & 0.0 & 704.0 & 2065 &
+▇▃▂▁▁\tabularnewline
+LowQualFinSF & 0 & 1.00 & 4.69 & 46.40 & 0 & 0.0 & 0.0 & 0.0 & 1064 &
+▇▁▁▁▁\tabularnewline
+GrLivArea & 0 & 1.00 & 1500.76 & 506.05 & 334 & 1126.0 & 1444.0 & 1743.5
+& 5642 & ▇▇▁▁▁\tabularnewline
+BsmtFullBath & 2 & 1.00 & 0.43 & 0.52 & 0 & 0.0 & 0.0 & 1.0 & 3 &
+▇▆▁▁▁\tabularnewline
+BsmtHalfBath & 2 & 1.00 & 0.06 & 0.25 & 0 & 0.0 & 0.0 & 0.0 & 2 &
+▇▁▁▁▁\tabularnewline
+FullBath & 0 & 1.00 & 1.57 & 0.55 & 0 & 1.0 & 2.0 & 2.0 & 4 &
+▁▇▇▁▁\tabularnewline
+HalfBath & 0 & 1.00 & 0.38 & 0.50 & 0 & 0.0 & 0.0 & 1.0 & 2 &
+▇▁▅▁▁\tabularnewline
+BedroomAbvGr & 0 & 1.00 & 2.86 & 0.82 & 0 & 2.0 & 3.0 & 3.0 & 8 &
+▁▇▂▁▁\tabularnewline
+KitchenAbvGr & 0 & 1.00 & 1.04 & 0.21 & 0 & 1.0 & 1.0 & 1.0 & 3 &
+▁▇▁▁▁\tabularnewline
+TotRmsAbvGrd & 0 & 1.00 & 6.45 & 1.57 & 2 & 5.0 & 6.0 & 7.0 & 15 &
+▁▇▂▁▁\tabularnewline
+Fireplaces & 0 & 1.00 & 0.60 & 0.65 & 0 & 0.0 & 1.0 & 1.0 & 4 &
+▇▇▁▁▁\tabularnewline
+GarageYrBlt & 159 & 0.95 & 1978.11 & 25.57 & 1895 & 1960.0 & 1979.0 &
+2002.0 & 2207 & ▂▇▁▁▁\tabularnewline
+GarageCars & 1 & 1.00 & 1.77 & 0.76 & 0 & 1.0 & 2.0 & 2.0 & 5 &
+▅▇▂▁▁\tabularnewline
+GarageArea & 1 & 1.00 & 472.87 & 215.39 & 0 & 320.0 & 480.0 & 576.0 &
+1488 & ▃▇▃▁▁\tabularnewline
+WoodDeckSF & 0 & 1.00 & 93.71 & 126.53 & 0 & 0.0 & 0.0 & 168.0 & 1424 &
+▇▁▁▁▁\tabularnewline
+OpenPorchSF & 0 & 1.00 & 47.49 & 67.58 & 0 & 0.0 & 26.0 & 70.0 & 742 &
+▇▁▁▁▁\tabularnewline
+EnclosedPorch & 0 & 1.00 & 23.10 & 64.24 & 0 & 0.0 & 0.0 & 0.0 & 1012 &
+▇▁▁▁▁\tabularnewline
+X3SsnPorch & 0 & 1.00 & 2.60 & 25.19 & 0 & 0.0 & 0.0 & 0.0 & 508 &
+▇▁▁▁▁\tabularnewline
+ScreenPorch & 0 & 1.00 & 16.06 & 56.18 & 0 & 0.0 & 0.0 & 0.0 & 576 &
+▇▁▁▁▁\tabularnewline
+PoolArea & 0 & 1.00 & 2.25 & 35.66 & 0 & 0.0 & 0.0 & 0.0 & 800 &
+▇▁▁▁▁\tabularnewline
+MiscVal & 0 & 1.00 & 50.83 & 567.40 & 0 & 0.0 & 0.0 & 0.0 & 17000 &
+▇▁▁▁▁\tabularnewline
+MoSold & 0 & 1.00 & 6.21 & 2.71 & 1 & 4.0 & 6.0 & 8.0 & 12 &
+▅▆▇▃▃\tabularnewline
+YrSold & 0 & 1.00 & 2007.79 & 1.31 & 2006 & 2007.0 & 2008.0 & 2009.0 &
+2010 & ▇▇▇▇▃\tabularnewline
+SalePrice & 1459 & 0.50 & 180921.20 & 79442.50 & 34900 & 129975.0 &
+163000.0 & 214000.0 & 755000 & ▇▅▁▁▁\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{eda}{%
+\subsection{Eda}\label{eda}}
+
+Doing an EDA for data quality checks. We first check for missing values
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{profile_missing}\NormalTok{(house_comb) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(pct_missing))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 82 x 3
+##    feature      num_missing pct_missing
+##    <fct>              <int>       <dbl>
+##  1 PoolQC              2909      0.997 
+##  2 MiscFeature         2814      0.964 
+##  3 Alley               2721      0.932 
+##  4 Fence               2348      0.804 
+##  5 SalePrice           1459      0.500 
+##  6 FireplaceQu         1420      0.486 
+##  7 LotFrontage          486      0.166 
+##  8 GarageYrBlt          159      0.0545
+##  9 GarageFinish         159      0.0545
+## 10 GarageQual           159      0.0545
+## # ... with 72 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot_missing}\NormalTok{(house_comb)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+The missing values is result of absence of a particular feature in the
+property. We will code the missing values as with approproate
+categorical variable later on.
+
+\hypertarget{further-data-exploration}{%
+\section{Further Data Exploration}\label{further-data-exploration}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#check distribution of repsonse variabes}
+
+\NormalTok{house_comb }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(set }\OperatorTok{==}\StringTok{ "train"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{log_sale_price =} \KeywordTok{log10}\NormalTok{(SalePrice)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SalePrice, log_sale_price) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{pivot_longer}\NormalTok{(}\KeywordTok{everything}\NormalTok{(), }\DataTypeTok{names_to =} \StringTok{"Sale"}\NormalTok{, }\DataTypeTok{values_to =} \StringTok{"price"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ price)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(Sale}\OperatorTok{~}\NormalTok{., }\DataTypeTok{scales =} \StringTok{"free"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"distribution of Price"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+Sale Price distribtion is right skewed however log transformation is
+Normal and is a candidate for Linear Regression. Lets explore other
+features.
+
+\hypertarget{check-distribution-of-categorical-variables}{%
+\section{Check distribution of categorical
+variables}\label{check-distribution-of-categorical-variables}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot_bar}\NormalTok{(house_comb, }\DataTypeTok{ggtheme =} \KeywordTok{theme_minimal}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-7-1.pdf}
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-7-2.pdf}
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-7-3.pdf}
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-7-4.pdf}
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-7-5.pdf}
+
+\hypertarget{check-distribution-of-numeric-features}{%
+\section{Check distribution of Numeric
+features}\label{check-distribution-of-numeric-features}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot_histogram}\NormalTok{(house_comb, }\DataTypeTok{ggtheme =} \KeywordTok{theme_minimal}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-8-1.pdf}
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-8-2.pdf}
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-8-3.pdf}
+
+\hypertarget{explore-categorical-variables-against-sale-price.}{%
+\section{Explore categorical variables against Sale
+price.}\label{explore-categorical-variables-against-sale-price.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{house_comb }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{SalePrice =}\NormalTok{ SalePrice}\OperatorTok{/}\DecValTok{1000}\NormalTok{) }\OperatorTok{%>%}
+\KeywordTok{plot_boxplot}\NormalTok{(}\DataTypeTok{by =} \StringTok{"SalePrice"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 512 rows containing non-finite values (stat_boxplot).
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+\begin{verbatim}
+## Warning: Removed 5 rows containing non-finite values (stat_boxplot).
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-9-2.pdf}
+
+\begin{verbatim}
+## Warning: Removed 161 rows containing non-finite values (stat_boxplot).
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-9-3.pdf}
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-9-4.pdf}
+
+\hypertarget{checking-correlation-among-variables}{%
+\section{Checking correlation among
+variables}\label{checking-correlation-among-variables}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{house_comb }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select_if}\NormalTok{(is.numeric) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{corrr}\OperatorTok{::}\KeywordTok{correlate}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{rearrange}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{shave}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }\NormalTok{rplot }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Correlation method: 'pearson'
+## Missing treated using: 'pairwise.complete.obs'
+\end{verbatim}
+
+\begin{verbatim}
+## Registered S3 method overwritten by 'seriation':
+##   method         from 
+##   reorder.hclust gclus
+\end{verbatim}
+
+\begin{verbatim}
+## Don't know how to automatically pick scale for object of type noquote. Defaulting to continuous.
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{house_comb }\OperatorTok{%>%}\StringTok{ }\KeywordTok{get_corr_df_simple}\NormalTok{(}\DataTypeTok{cut_off =} \FloatTok{0.6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Correlation method: 'pearson'
+## Missing treated using: 'pairwise.complete.obs'
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 18 x 3
+##    rowname      features      corr
+##    <chr>        <chr>        <dbl>
+##  1 GarageCars   GarageArea   0.890
+##  2 YearBuilt    GarageYrBlt  0.835
+##  3 GrLivArea    TotRmsAbvGrd 0.808
+##  4 TotalBsmtSF  X1stFlrSF    0.802
+##  5 OverallQual  SalePrice    0.791
+##  6 GrLivArea    SalePrice    0.709
+##  7 BedroomAbvGr TotRmsAbvGrd 0.670
+##  8 X2ndFlrSF    GrLivArea    0.655
+##  9 YearRemodAdd GarageYrBlt  0.652
+## 10 GarageCars   SalePrice    0.640
+## 11 BsmtFinSF1   BsmtFullBath 0.639
+## 12 GrLivArea    FullBath     0.630
+## 13 GarageArea   SalePrice    0.623
+## 14 TotalBsmtSF  SalePrice    0.614
+## 15 YearBuilt    YearRemodAdd 0.612
+## 16 X2ndFlrSF    HalfBath     0.611
+## 17 X1stFlrSF    SalePrice    0.606
+## 18 OverallQual  GarageCars   0.601
+\end{verbatim}
+
+\hypertarget{check-for-near-zero-variables}{%
+\section{Check for near zero
+variables}\label{check-for-near-zero-variables}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{house_comb[, }\KeywordTok{nearZeroVar}\NormalTok{(house_comb)] }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate_if}\NormalTok{(is.character, as.factor) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{summary}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Street     LandContour  Utilities    LandSlope    Condition2      RoofMatl   
+##  Grvl:  12   Bnk: 117    AllPub:2916   Gtl:2778   Norm   :2889   CompShg:2876  
+##  Pave:2907   HLS: 120    NoSeWa:   1   Mod: 125   Feedr  :  13   Tar&Grv:  23  
+##              Low:  60    NA's  :   2   Sev:  16   Artery :   5   WdShake:   9  
+##              Lvl:2622                             PosA   :   4   WdShngl:   7  
+##                                                   PosN   :   4   ClyTile:   1  
+##                                                   RRNn   :   2   Membran:   1  
+##                                                   (Other):   2   (Other):   2  
+##  BsmtCond    BsmtFinType2   BsmtFinSF2       Heating      LowQualFinSF     
+##  Fa  : 104   ALQ :  52    Min.   :   0.00   Floor:   1   Min.   :   0.000  
+##  Gd  : 122   BLQ :  68    1st Qu.:   0.00   GasA :2874   1st Qu.:   0.000  
+##  Po  :   5   GLQ :  34    Median :   0.00   GasW :  27   Median :   0.000  
+##  TA  :2606   LwQ :  87    Mean   :  49.58   Grav :   9   Mean   :   4.694  
+##  NA's:  82   Rec : 105    3rd Qu.:   0.00   OthW :   2   3rd Qu.:   0.000  
+##              Unf :2493    Max.   :1526.00   Wall :   6   Max.   :1064.000  
+##              NA's:  80    NA's   :1                                        
+##   KitchenAbvGr     Functional   GarageQual  GarageCond   OpenPorchSF    
+##  Min.   :0.000   Typ    :2717   Ex  :   3   Ex  :   3   Min.   :  0.00  
+##  1st Qu.:1.000   Min2   :  70   Fa  : 124   Fa  :  74   1st Qu.:  0.00  
+##  Median :1.000   Min1   :  65   Gd  :  24   Gd  :  15   Median : 26.00  
+##  Mean   :1.045   Mod    :  35   Po  :   5   Po  :  14   Mean   : 47.49  
+##  3rd Qu.:1.000   Maj1   :  19   TA  :2604   TA  :2654   3rd Qu.: 70.00  
+##  Max.   :3.000   (Other):  11   NA's: 159   NA's: 159   Max.   :742.00  
+##                  NA's   :   2                                           
+##  EnclosedPorch      X3SsnPorch       ScreenPorch        PoolArea      
+##  Min.   :   0.0   Min.   :  0.000   Min.   :  0.00   Min.   :  0.000  
+##  1st Qu.:   0.0   1st Qu.:  0.000   1st Qu.:  0.00   1st Qu.:  0.000  
+##  Median :   0.0   Median :  0.000   Median :  0.00   Median :  0.000  
+##  Mean   :  23.1   Mean   :  2.602   Mean   : 16.06   Mean   :  2.252  
+##  3rd Qu.:   0.0   3rd Qu.:  0.000   3rd Qu.:  0.00   3rd Qu.:  0.000  
+##  Max.   :1012.0   Max.   :508.000   Max.   :576.00   Max.   :800.000  
+##                                                                       
+##     MiscVal        
+##  Min.   :    0.00  
+##  1st Qu.:    0.00  
+##  Median :    0.00  
+##  Mean   :   50.83  
+##  3rd Qu.:    0.00  
+##  Max.   :17000.00  
+## 
+\end{verbatim}
+
+\hypertarget{curious-to-know-if-street-type-makes-a-difference}{%
+\section{Curious to know if street type makes a
+difference}\label{curious-to-know-if-street-type-makes-a-difference}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{house_comb }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(set }\OperatorTok{==}\StringTok{ "train"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(Street) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{sumry =} \KeywordTok{list}\NormalTok{(}\KeywordTok{summary}\NormalTok{(SalePrice))) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{sumry =} \KeywordTok{map}\NormalTok{(sumry, }\OperatorTok{~}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{t}\NormalTok{(.)))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(sumry) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pivot_wider}\NormalTok{(}\DataTypeTok{names_from =}\NormalTok{ Street, }\DataTypeTok{values_from =}\NormalTok{ Freq)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 4
+##   Var1  Var2       Grvl    Pave
+##   <fct> <fct>     <dbl>   <dbl>
+## 1 A     Min.     55993   34900 
+## 2 A     1st Qu.  88250  130000 
+## 3 A     Median  114250  163000 
+## 4 A     Mean    130190. 181131.
+## 5 A     3rd Qu. 169650  214000 
+## 6 A     Max.    228950  755000
+\end{verbatim}
+
+In general we do see House in pavement have higher Sale price than the
+Gravel.
+
+\hypertarget{checking-affect-of-time-over-sale-price}{%
+\section{Checking affect of time over Sale
+Price}\label{checking-affect-of-time-over-sale-price}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{house_comb }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(set }\OperatorTok{==}\StringTok{ "train"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select_at}\NormalTok{(}\KeywordTok{vars}\NormalTok{(}\KeywordTok{starts_with}\NormalTok{(}\StringTok{"Year"}\NormalTok{), }\KeywordTok{starts_with}\NormalTok{(}\StringTok{"MoSold"}\NormalTok{), SalePrice)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{pivot_longer}\NormalTok{(}\OperatorTok{-}\NormalTok{SalePrice, }\DataTypeTok{names_to =} \StringTok{"time_metric"}\NormalTok{, }\DataTypeTok{values_to =} \StringTok{"unit"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ SalePrice, }\DataTypeTok{x =}\NormalTok{ unit )) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(.}\OperatorTok{~}\NormalTok{time_metric, }\DataTypeTok{scales =} \StringTok{"free"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{house_comb }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(set }\OperatorTok{==}\StringTok{ "train"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select_at}\NormalTok{(}\KeywordTok{vars}\NormalTok{(}\KeywordTok{starts_with}\NormalTok{(}\StringTok{"Year"}\NormalTok{), }\KeywordTok{starts_with}\NormalTok{(}\StringTok{"MoSold"}\NormalTok{), SalePrice)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{pivot_longer}\NormalTok{(}\OperatorTok{-}\NormalTok{SalePrice, }\DataTypeTok{names_to =} \StringTok{"time_metric"}\NormalTok{, }\DataTypeTok{values_to =} \StringTok{"unit"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ SalePrice, }\DataTypeTok{x =} \KeywordTok{as.factor}\NormalTok{(unit) )) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(.}\OperatorTok{~}\NormalTok{time_metric, }\DataTypeTok{scales =} \StringTok{"free"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_light}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-13-2.pdf}
+
+There is no particular effect of month sold on Sale price. However, In
+general we dprices does increase Year on Year which makes common sense.
+
+\hypertarget{based-on-our-explorations-above-lets-will-do-some-preliminary-data-cleaning-on-the-train-data-set}{%
+\section{Based on our explorations above lets will do some preliminary
+data cleaning on the train data
+set}\label{based-on-our-explorations-above-lets-will-do-some-preliminary-data-cleaning-on-the-train-data-set}}
+
+The code below will fix few missing values which are actually features
+not present in a property. These features are related to . Alley . Bsmt
+. Garage . FireplaceQu . PoolQC . Fence . MiscFeatures . MasVnr
+
+We also create a categorical bucketing variable out of YearSold and Yr
+Modelled. We create new variabe `log\_sale\_price' that is log of Sale
+Price. This new variable will be used as response variables.
+
+Last we remove Id, Sale Price and set variable that will not contribute
+to the model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#pp3}
+\NormalTok{house <-}\StringTok{ }\NormalTok{train }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }\CommentTok{#converting sales to log scale}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{log_sale_price =} \KeywordTok{log}\NormalTok{(SalePrice)) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }
+\StringTok{  }\CommentTok{#fill in missing values NA for factor variables as per data description}
+\StringTok{  }
+\StringTok{  }\CommentTok{#Alley}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Alley =} \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(Alley), }\StringTok{"No Alley"}\NormalTok{, Alley)) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }\CommentTok{#Bsmt}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}
+    \DataTypeTok{BsmtCond =} \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(BsmtCond), }\StringTok{"No Bsmnt"}\NormalTok{, BsmtCond),}
+    \DataTypeTok{BsmtExposure =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(BsmtExposure), }\StringTok{"No Bsmnt"}\NormalTok{, BsmtExposure),}
+    \DataTypeTok{BsmtQual =} \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(BsmtQual), }\StringTok{"No Bsmnt"}\NormalTok{, BsmtQual),}
+    \DataTypeTok{BsmtFinType1 =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(BsmtFinType1), }\StringTok{"No Bsmnt"}\NormalTok{, BsmtFinType1),}
+    \DataTypeTok{BsmtFinType2 =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(BsmtFinType2), }\StringTok{"No Bsmnt"}\NormalTok{, BsmtFinType2),}
+    \DataTypeTok{BsmtFinSF1 =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(BsmtFinSF1), }\DecValTok{0}\NormalTok{, BsmtFinSF1),}
+    \DataTypeTok{BsmtFinSF2 =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(BsmtFinSF2), }\DecValTok{0}\NormalTok{, BsmtFinSF2),}
+    \DataTypeTok{BsmtUnfSF =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(BsmtUnfSF), }\DecValTok{0}\NormalTok{, BsmtUnfSF),}
+    \DataTypeTok{TotalBsmtSF =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(TotalBsmtSF), }\DecValTok{0}\NormalTok{, TotalBsmtSF),}
+    \DataTypeTok{BsmtFullBath =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(BsmtFullBath), }\DecValTok{0}\NormalTok{, BsmtFullBath),}
+    \DataTypeTok{BsmtHalfBath =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(BsmtHalfBath), }\DecValTok{0}\NormalTok{, BsmtHalfBath)}
+    
+\NormalTok{  ) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }\CommentTok{#Garage}
+\StringTok{  }\CommentTok{#GarageType, GarageType, GarageFinish, GarageQual, GarageCond, 'GarageYrBlt', 'GarageArea', 'GarageCars'}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}
+    \DataTypeTok{GarageType =} \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(GarageType), }\StringTok{"No Garage"}\NormalTok{, GarageType),}
+    \DataTypeTok{GarageFinish =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(GarageFinish), }\StringTok{"No Garage"}\NormalTok{, GarageFinish),}
+    \DataTypeTok{GarageQual =} \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(GarageQual), }\StringTok{"No Garage"}\NormalTok{, GarageQual),}
+    \DataTypeTok{GarageCond =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(GarageCond), }\StringTok{"No Garage"}\NormalTok{, GarageCond),}
+    \DataTypeTok{GarageYrBlt =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(GarageYrBlt), }\DecValTok{0}\NormalTok{, GarageYrBlt),}
+    \DataTypeTok{GarageArea =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(GarageArea), }\DecValTok{0}\NormalTok{, GarageArea),}
+    \DataTypeTok{GarageCars =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(GarageCond), }\DecValTok{0}\NormalTok{, GarageCars)}
+\NormalTok{  ) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{MasVnrType =} \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(MasVnrType), }\StringTok{"No MasVnrType"}\NormalTok{, MasVnrType)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{MasVnrArea =} \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(MasVnrArea), }\DecValTok{0}\NormalTok{, MasVnrArea)) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }
+\StringTok{  }\CommentTok{#FireplaceQu, PoolQC,Fence, MiscFeature}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}
+    \DataTypeTok{FireplaceQu =} \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(FireplaceQu), }\StringTok{"No Fireplc"}\NormalTok{, FireplaceQu),}
+    \DataTypeTok{PoolQC =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(PoolQC), }\StringTok{"No Pool"}\NormalTok{, PoolQC),}
+    \DataTypeTok{Fence =} \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(Fence), }\StringTok{"No Fence"}\NormalTok{, Fence),}
+    \DataTypeTok{MiscFeature =}  \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(MiscFeature), }\StringTok{"None"}\NormalTok{, MiscFeature)}
+\NormalTok{  ) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{YrBuilt_cat =} \KeywordTok{cut2}\NormalTok{(YearBuilt, }\DataTypeTok{cuts =} \KeywordTok{seq}\NormalTok{(}\KeywordTok{min}\NormalTok{(YearBuilt), }\KeywordTok{max}\NormalTok{(YearBuilt), }\DecValTok{5}\NormalTok{))) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{YearRemodAdd =} \KeywordTok{if_else}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(YearRemodAdd), YearBuilt, YearRemodAdd)) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }
+\StringTok{  }\CommentTok{#remove non contributing features and IDs}
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{Id,}\OperatorTok{-}\NormalTok{SalePrice, }\OperatorTok{-}\NormalTok{set)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{creating-a-training-and-validation-set-using-rsample}{%
+\section{Creating a Training and Validation set using
+rsample}\label{creating-a-training-and-validation-set-using-rsample}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{house_split <-}\StringTok{ }\KeywordTok{initial_split}\NormalTok{(house)}
+
+\NormalTok{train_split <-}\StringTok{ }\KeywordTok{training}\NormalTok{(house_split)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{create-recepies-with-series-of-preprocessing-step-on-training-set}{%
+\section{Create recepies with series of preprocessing step on training
+set}\label{create-recepies-with-series-of-preprocessing-step-on-training-set}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{house_recipe <-}\StringTok{ }\NormalTok{train_split }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{recipe}\NormalTok{(log_sale_price }\OperatorTok{~}\StringTok{ }\NormalTok{.) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_string2factor}\NormalTok{(}\KeywordTok{all_nominal}\NormalTok{(), }\OperatorTok{-}\KeywordTok{all_outcomes}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_num2factor}\NormalTok{(MoSold, }\DataTypeTok{levels =} \KeywordTok{as.character}\NormalTok{(}\KeywordTok{unique}\NormalTok{(train_split}\OperatorTok{$}\NormalTok{MoSold))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_num2factor}\NormalTok{(YrSold, }\DataTypeTok{levels =} \KeywordTok{as.character}\NormalTok{(}\KeywordTok{unique}\NormalTok{(train_split}\OperatorTok{$}\NormalTok{YrSold))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_num2factor}\NormalTok{(MSSubClass, }\DataTypeTok{levels =} \KeywordTok{as.character}\NormalTok{(}\KeywordTok{unique}\NormalTok{(train_split}\OperatorTok{$}\NormalTok{MSSubClass))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_num2factor}\NormalTok{(OverallCond, }\DataTypeTok{levels =} \KeywordTok{as.character}\NormalTok{(}\KeywordTok{unique}\NormalTok{(train_split}\OperatorTok{$}\NormalTok{OverallCond))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_dummy}\NormalTok{(}\KeywordTok{all_nominal}\NormalTok{(), }\OperatorTok{-}\KeywordTok{all_outcomes}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_center}\NormalTok{(}\KeywordTok{all_predictors}\NormalTok{(), }\OperatorTok{-}\KeywordTok{all_outcomes}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_scale}\NormalTok{(}\KeywordTok{all_predictors}\NormalTok{(), }\OperatorTok{-}\KeywordTok{all_outcomes}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_corr}\NormalTok{(}\KeywordTok{all_predictors}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_nzv}\NormalTok{(}\KeywordTok{all_predictors}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_knnimpute}\NormalTok{(}\KeywordTok{all_predictors}\NormalTok{(), }\OperatorTok{-}\KeywordTok{all_outcomes}\NormalTok{()) }
+  \CommentTok{# step_corr(all_predictors()) %>%}
+  \CommentTok{# step_nzv(all_predictors()) %>%}
+  
+\NormalTok{doParallel}\OperatorTok{::}\KeywordTok{registerDoParallel}\NormalTok{()}
+\NormalTok{house_prep <-}\StringTok{ }\KeywordTok{prep}\NormalTok{(house_recipe)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in cor(x, use = use, method = method): the standard deviation is zero
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: The correlation matrix has missing values. 18 columns were excluded
+## from the filter.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: The correlation matrix has sporadic missing values. Some columns were
+## excluded from the filter.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{house_recipe_treebased <-}\StringTok{ }\NormalTok{train_split }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{recipe}\NormalTok{(log_sale_price }\OperatorTok{~}\StringTok{ }\NormalTok{.) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_string2factor}\NormalTok{(}\KeywordTok{all_nominal}\NormalTok{(), }\OperatorTok{-}\KeywordTok{all_outcomes}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_num2factor}\NormalTok{(MoSold, }\DataTypeTok{levels =} \KeywordTok{as.character}\NormalTok{(}\KeywordTok{unique}\NormalTok{(train_split}\OperatorTok{$}\NormalTok{MoSold))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_num2factor}\NormalTok{(YrSold, }\DataTypeTok{levels =} \KeywordTok{as.character}\NormalTok{(}\KeywordTok{unique}\NormalTok{(train_split}\OperatorTok{$}\NormalTok{YrSold))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_num2factor}\NormalTok{(OverallCond, }\DataTypeTok{levels =} \KeywordTok{as.character}\NormalTok{(}\KeywordTok{unique}\NormalTok{(train_split}\OperatorTok{$}\NormalTok{OverallCond))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_num2factor}\NormalTok{(MSSubClass, }\DataTypeTok{levels =} \KeywordTok{as.character}\NormalTok{(}\KeywordTok{unique}\NormalTok{(train_split}\OperatorTok{$}\NormalTok{MSSubClass))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_dummy}\NormalTok{(}\KeywordTok{all_nominal}\NormalTok{(), }\OperatorTok{-}\KeywordTok{all_outcomes}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\CommentTok{# step_center(all_numeric(), -all_outcomes()) %>%}
+\StringTok{  }\CommentTok{# step_scale(all_numeric(), -all_outcomes()) %>%}
+\StringTok{  }\KeywordTok{step_corr}\NormalTok{(}\KeywordTok{all_numeric}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_nzv}\NormalTok{(}\KeywordTok{all_numeric}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{step_knnimpute}\NormalTok{(}\KeywordTok{all_predictors}\NormalTok{(), }\OperatorTok{-}\KeywordTok{all_outcomes}\NormalTok{())}
+
+\NormalTok{doParallel}\OperatorTok{::}\KeywordTok{registerDoParallel}\NormalTok{()    }
+\NormalTok{house_treebased_prep <-}\StringTok{ }\KeywordTok{prep}\NormalTok{(house_recipe_treebased)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: There are new levels in a factor: NA
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in cor(x, use = use, method = method): the standard deviation is zero
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: The correlation matrix has missing values. 18 columns were excluded
+## from the filter.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: The correlation matrix has sporadic missing values. Some columns were
+## excluded from the filter.
+\end{verbatim}
+
+\hypertarget{applying-preprocessing-on-training-and-validationtesting-set}{%
+\section{Applying preprocessing on training and validation(testing)
+set}\label{applying-preprocessing-on-training-and-validationtesting-set}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{house_train <-}\StringTok{ }\KeywordTok{juice}\NormalTok{(house_prep)}
+\NormalTok{house_test <-}\StringTok{ }\KeywordTok{bake}\NormalTok{(house_prep, }\KeywordTok{testing}\NormalTok{(house_split))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#splits for tree based algo}
+\NormalTok{house_train_treebased <-}\StringTok{ }\KeywordTok{juice}\NormalTok{(house_treebased_prep)}
+\NormalTok{house_test_treebased <-}\StringTok{ }\KeywordTok{bake}\NormalTok{(house_treebased_prep, }\KeywordTok{testing}\NormalTok{(house_split))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+
+## Warning: There are new levels in a factor: NA
+\end{verbatim}
+
+\hypertarget{train-models}{%
+\subsection{Train models}\label{train-models}}
+
+\hypertarget{linear-regression}{%
+\section{linear regression}\label{linear-regression}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#linear model}
+\NormalTok{lm_model <-}\StringTok{ }\CommentTok{#recipe(log_sale_price ~ . , data = house_train) %>%}
+\StringTok{  }\KeywordTok{linear_reg}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_mode}\NormalTok{(}\StringTok{"regression"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_engine}\NormalTok{(}\StringTok{"lm"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{fit}\NormalTok{(log_sale_price }\OperatorTok{~}\StringTok{ }\NormalTok{. , }\DataTypeTok{data =}\NormalTok{ house_train)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{random-forest}{%
+\section{random forest}\label{random-forest}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#create recepie on the preped house train data}
+\NormalTok{rf_rec <-}
+\StringTok{  }\KeywordTok{recipe}\NormalTok{(log_sale_price }\OperatorTok{~}\NormalTok{. , }\DataTypeTok{data =}\NormalTok{ house_train_treebased)}
+
+\CommentTok{#give model spec}
+\NormalTok{rf_mod <-}
+\StringTok{  }\KeywordTok{rand_forest}\NormalTok{(}\DataTypeTok{mtry =} \KeywordTok{tune}\NormalTok{(), }\DataTypeTok{min_n =} \KeywordTok{tune}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_engine}\NormalTok{(}\StringTok{"ranger"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_mode}\NormalTok{(}\StringTok{"regression"}\NormalTok{)}
+
+\CommentTok{#create Search grid}
+\NormalTok{rf_grid <-}
+\StringTok{  }\KeywordTok{grid_regular}\NormalTok{(}\KeywordTok{mtry}\NormalTok{(}\DataTypeTok{range =} \KeywordTok{c}\NormalTok{(}\DecValTok{15}\NormalTok{,}\DecValTok{40}\NormalTok{)), }\KeywordTok{min_n}\NormalTok{(}\DataTypeTok{range=} \KeywordTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{2}\NormalTok{)), }\DataTypeTok{levels =} \DecValTok{5}\NormalTok{)}
+
+\CommentTok{#create samples for cross validation}
+\NormalTok{folds <-}\StringTok{ }\KeywordTok{vfold_cv}\NormalTok{(house_train_treebased, }\DataTypeTok{v =} \DecValTok{10}\NormalTok{)}
+
+
+\NormalTok{doParallel}\OperatorTok{::}\KeywordTok{registerDoParallel}\NormalTok{()}
+
+\CommentTok{#create models with grid search}
+\NormalTok{rf_res <-}
+\StringTok{  }\KeywordTok{tune_grid}\NormalTok{(}\DataTypeTok{model =}\NormalTok{ rf_mod, rf_rec,}\DataTypeTok{resamples =}\NormalTok{ folds ,  }\DataTypeTok{grid =}\NormalTok{ rf_grid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `tune_grid.recipe()` is deprecated as of lifecycle 0.1.0.
+## The first argument to `tune_grid()` should be either a model or a workflow. In the future, you can use:
+## tune_grid(rf_mod, rf_rec, resamples = folds, grid = rf_grid)
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.
+\end{verbatim}
+
+\begin{verbatim}
+## i Creating pre-processing data to finalize unknown parameter: mtry
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{final_mtry <-}\StringTok{ }\KeywordTok{select_best}\NormalTok{(rf_res, }\StringTok{"rmse"}\NormalTok{, }\DataTypeTok{maximize =} \OtherTok{FALSE}\NormalTok{)}\OperatorTok{$}\NormalTok{mtry}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: The `maximize` argument is no longer needed. This value was ignored.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{final_min_node <-}\StringTok{ }\KeywordTok{select_best}\NormalTok{(rf_res, }\StringTok{"rmse"}\NormalTok{, }\DataTypeTok{maximize =} \OtherTok{FALSE}\NormalTok{)}\OperatorTok{$}\NormalTok{min_n}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: The `maximize` argument is no longer needed. This value was ignored.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#random forest}
+\NormalTok{rf_model <-}\StringTok{ }\KeywordTok{rand_forest}\NormalTok{(}\DataTypeTok{mtry =}\NormalTok{ final_mtry, }\DataTypeTok{min_n =}\NormalTok{ final_min_node) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_mode}\NormalTok{(}\StringTok{"regression"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_engine}\NormalTok{(}\StringTok{"ranger"}\NormalTok{,}\DataTypeTok{importance =} \StringTok{'impurity'}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{fit}\NormalTok{(log_sale_price }\OperatorTok{~}\StringTok{ }\NormalTok{. , }\DataTypeTok{data =}\NormalTok{ house_train_treebased)}
+
+\CommentTok{#Visualise Feature Importance}
+\KeywordTok{vi}\NormalTok{(rf_model}\OperatorTok{$}\NormalTok{fit) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Variable =} \KeywordTok{fct_reorder}\NormalTok{(Variable, }\KeywordTok{abs}\NormalTok{(Importance)), }\DataTypeTok{abs_importance =} \KeywordTok{abs}\NormalTok{(Importance)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(abs_importance)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{top_n}\NormalTok{(}\DecValTok{20}\NormalTok{) }\OperatorTok{%>%}
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Variable, }\DataTypeTok{y =}\NormalTok{ abs_importance)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_col}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{coord_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Selecting by abs_importance
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\#xgboost
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{doParallel}\OperatorTok{::}\KeywordTok{registerDoParallel}\NormalTok{()}
+\CommentTok{#xgboost}
+\NormalTok{xg_model <-}\StringTok{ }\KeywordTok{boost_tree}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_mode}\NormalTok{(}\StringTok{"regression"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_engine}\NormalTok{(}\StringTok{"xgboost"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{fit}\NormalTok{(log_sale_price }\OperatorTok{~}\StringTok{ }\NormalTok{. , }\DataTypeTok{data =}\NormalTok{ house_train_treebased)}
+\end{Highlighting}
+\end{Shaded}
+
+\#linear model ridge
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ridge_rec <-}
+\StringTok{  }\KeywordTok{recipe}\NormalTok{(log_sale_price }\OperatorTok{~}\NormalTok{. , }\DataTypeTok{data =}\NormalTok{ house_train)}
+
+\NormalTok{ridge_mod <-}
+\StringTok{  }\KeywordTok{linear_reg}\NormalTok{(}\DataTypeTok{penalty =} \KeywordTok{tune}\NormalTok{(), }\DataTypeTok{mixture =} \KeywordTok{tune}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_engine}\NormalTok{(}\StringTok{"glmnet"}\NormalTok{)}
+ 
+
+\NormalTok{ridge_grid <-}\StringTok{ }\KeywordTok{expand.grid}\NormalTok{(}\DataTypeTok{penalty =} \KeywordTok{seq}\NormalTok{(}\DataTypeTok{from =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{to =} \FloatTok{0.2}\NormalTok{, }\DataTypeTok{by=}\FloatTok{0.001}\NormalTok{), }\DataTypeTok{mixture =} \DecValTok{0}\NormalTok{)}
+
+\NormalTok{folds <-}\StringTok{ }\KeywordTok{vfold_cv}\NormalTok{(house_train, }\DataTypeTok{v =} \DecValTok{10}\NormalTok{)}
+
+\NormalTok{doParallel}\OperatorTok{::}\KeywordTok{registerDoParallel}\NormalTok{()}
+
+\NormalTok{ridge_res <-}
+\StringTok{  }\KeywordTok{tune_grid}\NormalTok{(ridge_rec, }\DataTypeTok{model =}\NormalTok{ ridge_mod, }\DataTypeTok{resamples =}\NormalTok{ folds ,  }\DataTypeTok{grid =}\NormalTok{ ridge_grid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `tune_grid.recipe()` is deprecated as of lifecycle 0.1.0.
+## The first argument to `tune_grid()` should be either a model or a workflow. In the future, you can use:
+## tune_grid(ridge_mod, ridge_rec, resamples = folds, grid = ridge_grid)
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{autoplot}\NormalTok{(ridge_res)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{final_penalty <-}\StringTok{ }\KeywordTok{select_best}\NormalTok{(ridge_res, }\StringTok{"rmse"}\NormalTok{, }\DataTypeTok{maximize =} \OtherTok{FALSE}\NormalTok{)}\OperatorTok{$}\NormalTok{penalty}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: The `maximize` argument is no longer needed. This value was ignored.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#apply best tuning parameter linear model ridge}
+\NormalTok{lm_ridge_model <-}\StringTok{ }\KeywordTok{linear_reg}\NormalTok{(}\DataTypeTok{penalty =}\NormalTok{ final_penalty , }\DataTypeTok{mixture =} \DecValTok{0}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_mode}\NormalTok{(}\StringTok{"regression"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_engine}\NormalTok{(}\StringTok{"glmnet"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{fit}\NormalTok{(log_sale_price }\OperatorTok{~}\NormalTok{. , }\DataTypeTok{data =}\NormalTok{ house_train)}
+
+\CommentTok{#Visualise Feature Importance}
+\KeywordTok{vi}\NormalTok{(lm_ridge_model}\OperatorTok{$}\NormalTok{fit) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Variable =} \KeywordTok{fct_reorder}\NormalTok{(Variable, }\KeywordTok{abs}\NormalTok{(Importance)), }\DataTypeTok{abs_importance =} \KeywordTok{abs}\NormalTok{(Importance)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(abs_importance)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{top_n}\NormalTok{(}\DecValTok{20}\NormalTok{) }\OperatorTok{%>%}
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Variable, }\DataTypeTok{y =}\NormalTok{ abs_importance, }\DataTypeTok{fill =}\NormalTok{ Sign)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_col}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{coord_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Selecting by abs_importance
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-21-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{vi}\NormalTok{(lm_ridge_model}\OperatorTok{$}\NormalTok{fit) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Variable =} \KeywordTok{fct_reorder}\NormalTok{(Variable, }\KeywordTok{abs}\NormalTok{(Importance)), }\DataTypeTok{abs_importance =} \KeywordTok{abs}\NormalTok{(Importance)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(abs_importance)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{top_n}\NormalTok{(}\DecValTok{20}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Variable, }\DataTypeTok{y =}\NormalTok{ Importance, }\DataTypeTok{fill =}\NormalTok{ Sign)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_col}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{coord_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Selecting by abs_importance
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-21-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Visulaise beta strength}
+\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(lm_ridge_model}\OperatorTok{$}\NormalTok{fit}\OperatorTok{$}\NormalTok{beta)) }\OperatorTok{%>%}\StringTok{  }\KeywordTok{rownames_to_column}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pivot_longer}\NormalTok{(}\OperatorTok{-}\NormalTok{rowname) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(rowname) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{mean_beta =} \KeywordTok{mean}\NormalTok{(value), }\DataTypeTok{se_beta =} \KeywordTok{sd}\NormalTok{(value)) }\OperatorTok{%>%}\StringTok{ }\NormalTok{ungroup }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =} \DecValTok{1}\NormalTok{, }\DataTypeTok{x =}\NormalTok{ mean_beta, , }\DataTypeTok{size =} \KeywordTok{abs}\NormalTok{(mean_beta)), }\DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label =}\NormalTok{ rowname), }\DataTypeTok{position =} \KeywordTok{position_jitter}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-21-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lasso_rec <-}
+\StringTok{  }\KeywordTok{recipe}\NormalTok{(log_sale_price }\OperatorTok{~}\NormalTok{. , }\DataTypeTok{data =}\NormalTok{ house_train)}
+
+\NormalTok{lasso_mod <-}
+\StringTok{  }\KeywordTok{linear_reg}\NormalTok{(}\DataTypeTok{penalty =} \KeywordTok{tune}\NormalTok{(), }\DataTypeTok{mixture =} \KeywordTok{tune}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_engine}\NormalTok{(}\StringTok{"glmnet"}\NormalTok{)}
+ 
+\NormalTok{lasso_grid <-}\StringTok{ }\KeywordTok{expand.grid}\NormalTok{(}\DataTypeTok{penalty =} \KeywordTok{seq}\NormalTok{(}\DataTypeTok{from =} \FloatTok{0.001}\NormalTok{, }\DataTypeTok{to =} \FloatTok{0.005}\NormalTok{, }\DataTypeTok{by =} \FloatTok{0.000001}\NormalTok{), }\DataTypeTok{mixture =} \DecValTok{1}\NormalTok{)}
+
+\NormalTok{folds_lasso <-}\StringTok{ }\KeywordTok{vfold_cv}\NormalTok{(house_train, }\DataTypeTok{v =} \DecValTok{10}\NormalTok{)}
+
+\NormalTok{lasso_res <-}
+\StringTok{  }\KeywordTok{tune_grid}\NormalTok{(lasso_rec, }\DataTypeTok{model =}\NormalTok{ lasso_mod, }\DataTypeTok{resamples =}\NormalTok{ folds_lasso ,  }\DataTypeTok{grid =}\NormalTok{ lasso_grid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `tune_grid.recipe()` is deprecated as of lifecycle 0.1.0.
+## The first argument to `tune_grid()` should be either a model or a workflow. In the future, you can use:
+## tune_grid(lasso_mod, lasso_rec, resamples = folds_lasso, grid = lasso_grid)
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lambda_final <-}
+\StringTok{  }\KeywordTok{select_best}\NormalTok{(lasso_res, }\DataTypeTok{metric =} \StringTok{"rmse"}\NormalTok{, }\DataTypeTok{maximize =} \OtherTok{FALSE}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{select}\NormalTok{(penalty) }\OperatorTok{%>%}\StringTok{ }\NormalTok{unlist}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: The `maximize` argument is no longer needed. This value was ignored.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{autoplot}\NormalTok{(lasso_res)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#apply best tuning parameter linear model ridge}
+\NormalTok{lm_lasso_model <-}\StringTok{ }\KeywordTok{linear_reg}\NormalTok{(}\DataTypeTok{penalty =}\NormalTok{  lambda_final, }\DataTypeTok{mixture =} \DecValTok{1}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_mode}\NormalTok{(}\StringTok{"regression"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{set_engine}\NormalTok{(}\StringTok{"glmnet"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{fit}\NormalTok{(log_sale_price }\OperatorTok{~}\NormalTok{. , }\DataTypeTok{data =}\NormalTok{ house_train)}
+
+\CommentTok{#Visualise Feature Importance}
+\KeywordTok{vi}\NormalTok{(lm_lasso_model}\OperatorTok{$}\NormalTok{fit) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Variable =} \KeywordTok{fct_reorder}\NormalTok{(Variable, }\KeywordTok{abs}\NormalTok{(Importance)),}
+                                  \DataTypeTok{abs_importance =} \KeywordTok{abs}\NormalTok{(Importance)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(abs_importance)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{top_n}\NormalTok{(}\DecValTok{20}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Variable, }\DataTypeTok{y =}\NormalTok{ abs_importance, }\DataTypeTok{fill =}\NormalTok{ Sign)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_col}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{coord_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Selecting by abs_importance
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-22-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{vi}\NormalTok{(lm_lasso_model}\OperatorTok{$}\NormalTok{fit) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Variable =} \KeywordTok{fct_reorder}\NormalTok{(Variable, }\KeywordTok{abs}\NormalTok{(Importance)),}
+                                  \DataTypeTok{abs_importance =} \KeywordTok{abs}\NormalTok{(Importance)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(abs_importance)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{top_n}\NormalTok{(}\DecValTok{20}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Variable, }\DataTypeTok{y =}\NormalTok{ Importance, }\DataTypeTok{fill =}\NormalTok{ Sign)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_col}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{coord_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Selecting by abs_importance
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-22-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Visulaise beta strength}
+\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(lm_lasso_model}\OperatorTok{$}\NormalTok{fit}\OperatorTok{$}\NormalTok{beta)) }\OperatorTok{%>%}\StringTok{  }\KeywordTok{rownames_to_column}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pivot_longer}\NormalTok{(}\OperatorTok{-}\NormalTok{rowname) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(rowname) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{mean_beta =} \KeywordTok{mean}\NormalTok{(value), }\DataTypeTok{se_beta =} \KeywordTok{sd}\NormalTok{(value)) }\OperatorTok{%>%}\StringTok{ }\NormalTok{ungroup }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}
+  \DataTypeTok{y =} \DecValTok{1}\NormalTok{,}
+  \DataTypeTok{x =}\NormalTok{ mean_beta,}
+  \DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{,}
+  \DataTypeTok{size =} \KeywordTok{abs}\NormalTok{(mean_beta)}
+\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label =}\NormalTok{ rowname), }\DataTypeTok{position =} \KeywordTok{position_jitter}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-22-4.pdf}
+
+\#evaluate and consolidate model metrics
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}
+  \KeywordTok{map2_df}\NormalTok{(}
+    \KeywordTok{list}\NormalTok{(}
+      \DataTypeTok{lm =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{lm =}\NormalTok{ lm_model,}\DataTypeTok{name =} \StringTok{"lm"}\NormalTok{),}
+      \DataTypeTok{rf =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{rf =}\NormalTok{ rf_model, }\DataTypeTok{name =} \StringTok{"rf"}\NormalTok{),}
+      \DataTypeTok{xg =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{xg =}\NormalTok{ xg_model, }\DataTypeTok{name =}\StringTok{"xg"}\NormalTok{),}
+      \DataTypeTok{ridge =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{lm_ridge =}\NormalTok{ lm_ridge_model, }\DataTypeTok{name =} \StringTok{"ridge"}\NormalTok{),}
+      \DataTypeTok{lasso =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{lm_lasso =}\NormalTok{ lm_lasso_model, }\DataTypeTok{name =} \StringTok{"lasso"}\NormalTok{)}
+\NormalTok{    ),}
+    \KeywordTok{list}\NormalTok{(}
+\NormalTok{      house_train,}
+\NormalTok{      house_train_treebased,}
+\NormalTok{      house_train_treebased,}
+\NormalTok{      house_train,}
+\NormalTok{      house_train}
+\NormalTok{    ),}
+\NormalTok{    get_model_metrics}
+\NormalTok{  ) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{data =} \StringTok{"train"}\NormalTok{)}
+\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }
+\StringTok{  }\KeywordTok{bind_rows}\NormalTok{(}
+    
+    \KeywordTok{map2_df}\NormalTok{(}
+      \KeywordTok{list}\NormalTok{(}
+      \DataTypeTok{lm =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{lm =}\NormalTok{ lm_model,}\DataTypeTok{name =} \StringTok{"lm"}\NormalTok{),}
+      \DataTypeTok{rf =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{rf =}\NormalTok{ rf_model, }\DataTypeTok{name =} \StringTok{"rf"}\NormalTok{),}
+      \DataTypeTok{xg =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{xg =}\NormalTok{ xg_model, }\DataTypeTok{name =}\StringTok{"xg"}\NormalTok{),}
+      \DataTypeTok{ridge =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{lm_ridge =}\NormalTok{ lm_ridge_model, }\DataTypeTok{name =} \StringTok{"ridge"}\NormalTok{),}
+      \DataTypeTok{lasso =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{lm_lasso =}\NormalTok{ lm_lasso_model, }\DataTypeTok{name =} \StringTok{"lasso"}\NormalTok{)}
+\NormalTok{    ),}
+      \KeywordTok{list}\NormalTok{(house_test, house_test_treebased, house_test_treebased, house_test, house_test),}
+\NormalTok{      get_model_metrics}
+\NormalTok{    )  }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{data =} \StringTok{"test"}\NormalTok{)}
+\NormalTok{  ) }\OperatorTok{%>%}
+\StringTok{  }\CommentTok{# pivot_wider(names_from = data, values_from = .estimate) %>%}
+\StringTok{  }\CommentTok{# unnest %>%}
+\StringTok{  }
+\StringTok{  }\CommentTok{#plot the metrics}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ .estimate, }\DataTypeTok{x =}\NormalTok{ m_type, }\DataTypeTok{color =}\NormalTok{ data)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{size =} \DecValTok{4}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_light}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in predict.lm(object = object$fit, newdata = new_data, type =
+## "response"): prediction from a rank-deficient fit may be misleading
+
+## Warning in predict.lm(object = object$fit, newdata = new_data, type =
+## "response"): prediction from a rank-deficient fit may be misleading
+\end{verbatim}
+
+\includegraphics{house_priceV4_files/figure-latex/unnamed-chunk-23-1.pdf}
+
+The lasso model gives the best test RMSE value.
+
+\end{document}
