@@ -3,8 +3,9 @@ title: "Ames House Price prediction using tidymodel tools"
 author: "Ravi Hela"
 date: "22/03/2020"
 output:
+  pdf_document:
+    latex_engine: xelatex
   html_document: default
-  pdf_document: default
   word_document: default
 ---
 
